@@ -1,0 +1,26 @@
+{
+  "name": "aryan02420",
+  "version": "1.0.0",
+  "description": "![github stats](https://github-readme-stats.vercel.app/api?show_icons=true&username=aryan02420)<br/> ![github stats](https://github-readme-stats.vercel.app/api/top-langs/?layout=compact&username=aryan02420)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aryan02420/aryan02420.git"
+  },
+  "author": "aryan02420",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aryan02420/aryan02420/issues"
+  },
+  "homepage": "https://github.com/aryan02420/aryan02420#readme",
+  "dependencies": {
+    "@octokit/graphql": "^4.8.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
