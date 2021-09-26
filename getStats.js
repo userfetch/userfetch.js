@@ -11,115 +11,205 @@ const graphqlAuth = graphql.defaults({
 
 const gql = String.raw
 
-const query = gql`
-  {
-    viewer {
-      login
-      name
-      email
-      createdAt
-      location
-      status {
-        message
-        emoji
+const querySelf = gql`
+  query getSelfStats {
+    user: user {
+      ...userData
+    }
+  }
+`
+const queryOther = gql`
+  query getOtherStats($login: String = "") {
+    user: user(login: $login) {
+      ...userData
+    }
+  }
+`
+const userDataFragment = gql`
+  fragment userData on User {
+    login
+    name
+    email
+    createdAt
+    location
+    status {
+      message
+      emoji
+    }
+    isBountyHunter
+    isCampusExpert
+    isDeveloperProgramMember
+    isEmployee
+    isGitHubStar
+    isHireable
+    isSiteAdmin
+    followers(first: 5) {
+      totalCount
+      recent: nodes {
+        login
       }
-      followers {
-        totalCount
+    }
+    following(first: 5) {
+      totalCount
+      recent: nodes {
+        login
       }
-      following {
-        totalCount
+    }
+    sponsors(first: 5) {
+      totalCount
+      recent: nodes {
+        ... on User {
+          login
+        }
+        ... on Organization {
+          login
+        }
       }
-      sponsors {
-        totalCount
+    }
+    sponsoring(first: 5) {
+      totalCount
+      recent: nodes {
+        ... on User {
+          login
+        }
+        ... on Organization {
+          login
+        }
       }
-      sponsoring {
-        totalCount
+    }
+    gists(
+      privacy: PUBLIC
+      first: 5
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      totalCount
+      recent: nodes {
+        name
       }
-      gists(privacy: PUBLIC) {
-        totalCount
+    }
+    organizations(first: 5) {
+      totalCount
+      recent: nodes {
+        login
       }
-      organizations {
-        totalCount
+    }
+    packages(first: 5) {
+      totalCount
+      recent: nodes {
+        name
+        packageType
+        versions(first: 1) {
+          nodes {
+            version
+          }
+        }
       }
-      repositoriesContributedTo(privacy: PUBLIC) {
-        totalCount
+    }
+    projects(first: 5, orderBy: { field: UPDATED_AT, direction: DESC }) {
+      totalCount
+      recent: nodes {
+        name
       }
-      packages {
-        totalCount
+    }
+    pullRequests(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
+      totalCount
+      recent: nodes {
+        number
+        title
+        state
+        repository {
+          nameWithOwner
+        }
       }
-      projects {
-        totalCount
+    }
+    issues(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
+      totalCount
+      recent: nodes {
+        number
+        title
+        state
+        repository {
+          nameWithOwner
+        }
       }
-      pullRequests {
-        totalCount
+    }
+    repositoriesContributedTo(
+      privacy: PUBLIC
+      contributionTypes: COMMIT
+      first: 5
+      orderBy: { direction: DESC, field: PUSHED_AT }
+    ) {
+      totalCount
+      recent: nodes {
+        nameWithOwner
       }
-      issues {
-        totalCount
+    }
+    starredRepositories(
+      first: 5
+      orderBy: { field: STARRED_AT, direction: DESC }
+    ) {
+      totalCount
+      recent: nodes {
+        nameWithOwner
       }
-      starredRepositories {
-        totalCount
-      }
-      contributionsCollection {
-        totalCommitContributions
-        totalIssueContributions
-        totalPullRequestContributions
-        totalPullRequestReviewContributions
-      }
-      isBountyHunter
-      isCampusExpert
-      isDeveloperProgramMember
-      isEmployee
-      isGitHubStar
-      isHireable
-      isSiteAdmin
-      repositories(
-        first: 100
-        isFork: false
-        ownerAffiliations: OWNER
-        privacy: PUBLIC
-        orderBy: { field: UPDATED_AT, direction: DESC }
-      ) {
-        totalCount
-        nodes {
-          languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
-            edges {
-              size
-              node {
-                name
-                color
-              }
+    }
+    contributionsCollection {
+      totalCommitContributions
+    }
+    repositories(
+      first: 100
+      isFork: false
+      ownerAffiliations: OWNER
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      totalCount
+      nodes {
+        languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
+          edges {
+            size
+            node {
+              name
+              color
             }
           }
-          stargazerCount
         }
+        stargazerCount
       }
     }
   }
 `
 
-const getStats = async function () {
-  const { viewer } = await graphqlAuth(query)
-  // console.log(viewer)
+const getStats = async function (username) {
+  let query = ''
+  let variables = {}
+  if (!!username) {
+    query = queryOther + userDataFragment
+    variables.login = username
+  } else {
+    query = querySelf + userDataFragment
+  }
+  const {user} = await graphqlAuth(query, variables)
+  console.log(user)
   let stats = {
-    username: viewer.login,
-    name: viewer.name || viewer.login,
-    email: viewer.email,
-    location: viewer.location || '???',
-    status: viewer.status.message,
-    followers: viewer.followers.totalCount,
-    following: viewer.following.totalCount,
-    sponsors: viewer.sponsors.totalCount,
-    sponsoring: viewer.sponsoring.totalCount,
-    gists: viewer.gists.totalCount,
-    organizations: viewer.organizations.totalCount,
-    contributedTo: viewer.repositoriesContributedTo.totalCount,
-    packages: viewer.packages.totalCount,
-    projects: viewer.projects.totalCount,
-    pullRequests: viewer.pullRequests.totalCount,
-    issues: viewer.issues.totalCount,
-    stared: viewer.starredRepositories.totalCount,
-    commits: viewer.contributionsCollection.totalCommitContributions,
-    repositories: viewer.repositories.totalCount,
+    username: user.login,
+    name: user.name || user.login,
+    email: user.email,
+    location: user.location || '???',
+    status: user.status.message,
+    followers: user.followers.totalCount,
+    following: user.following.totalCount,
+    sponsors: user.sponsors.totalCount,
+    sponsoring: user.sponsoring.totalCount,
+    gists: user.gists.totalCount,
+    organizations: user.organizations.totalCount,
+    contributedTo: user.repositoriesContributedTo.totalCount,
+    packages: user.packages.totalCount,
+    projects: user.projects.totalCount,
+    pullRequests: user.pullRequests.totalCount,
+    issues: user.issues.totalCount,
+    stared: user.starredRepositories.totalCount,
+    commits: user.contributionsCollection.totalCommitContributions,
+    repositories: user.repositories.totalCount,
   }
   return stats
   //   const {
@@ -129,7 +219,7 @@ const getStats = async function () {
   //     location,
   //     status: { message: status },
   //     followers: {totalCount: followers}
-  //   } = viewer
+  //   } = user
 }
 
 export default getStats
