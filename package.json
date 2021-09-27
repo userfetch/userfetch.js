@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development node index.js",
+    "start": "NODE_ENV=production node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +20,8 @@
   },
   "homepage": "https://github.com/aryan02420/aryan02420#readme",
   "dependencies": {
-    "@octokit/graphql": "^4.8.0"
-  },
-  "devDependencies": {
-    "dotenv": "^10.0.0"
+    "@octokit/graphql": "^4.8.0",
+    "dotenv": "^10.0.0",
+    "terminal-kit": "^2.1.6"
   }
 }
