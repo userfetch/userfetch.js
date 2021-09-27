@@ -1,23 +1,15 @@
 import { graphql } from '@octokit/graphql'
-import dotenv from 'dotenv'
-
-dotenv.config()
-
-const graphqlAuth = graphql.defaults({
-  headers: {
-    authorization: `token ${process.env.GITHUB_PAT}`,
-  },
-})
 
 const gql = String.raw
 
 const querySelf = gql`
   query getSelfStats {
-    user: user {
+    user: viewer {
       ...userData
     }
   }
 `
+
 const queryOther = gql`
   query getOtherStats($login: String = "") {
     user: user(login: $login) {
@@ -179,47 +171,57 @@ const userDataFragment = gql`
   }
 `
 
-const getStats = async function (username) {
-  let query = ''
-  let variables = {}
-  if (!!username) {
-    query = queryOther + userDataFragment
-    variables.login = username
-  } else {
-    query = querySelf + userDataFragment
+const api = function (token) {
+
+  const graphqlAuth = graphql.defaults({
+    headers: {
+      authorization: `token ${process.env.github_token}`,
+    },
+  })
+
+  const getUser = async function (username) {
+    let query = ''
+    let variables = {}
+  
+    if (!!username) {
+      query = queryOther + userDataFragment
+      variables.login = username
+    } else {
+      query = querySelf + userDataFragment
+    }
+  
+    const { user } = await graphqlAuth(query, variables)
+    return user
   }
-  const {user} = await graphqlAuth(query, variables)
-  console.log(user)
-  let stats = {
-    username: user.login,
-    name: user.name || user.login,
-    email: user.email,
-    location: user.location || '???',
-    status: user.status.message,
-    followers: user.followers.totalCount,
-    following: user.following.totalCount,
-    sponsors: user.sponsors.totalCount,
-    sponsoring: user.sponsoring.totalCount,
-    gists: user.gists.totalCount,
-    organizations: user.organizations.totalCount,
-    contributedTo: user.repositoriesContributedTo.totalCount,
-    packages: user.packages.totalCount,
-    projects: user.projects.totalCount,
-    pullRequests: user.pullRequests.totalCount,
-    issues: user.issues.totalCount,
-    stared: user.starredRepositories.totalCount,
-    commits: user.contributionsCollection.totalCommitContributions,
-    repositories: user.repositories.totalCount,
+  
+  const getUserStats = async function (username) {
+    const user = await getUser(username)
+    const stats = {
+      username: user.login,
+      name: user.name || user.login,
+      email: user.email,
+      location: user.location || '???',
+      status: user.status?.message || '',
+      followers: user.followers.totalCount,
+      following: user.following.totalCount,
+      sponsors: user.sponsors.totalCount,
+      sponsoring: user.sponsoring.totalCount,
+      gists: user.gists.totalCount,
+      organizations: user.organizations.totalCount,
+      contributedTo: user.repositoriesContributedTo.totalCount,
+      packages: user.packages.totalCount,
+      projects: user.projects.totalCount,
+      pullRequests: user.pullRequests.totalCount,
+      issues: user.issues.totalCount,
+      stared: user.starredRepositories.totalCount,
+      commits: user.contributionsCollection.totalCommitContributions,
+      repositories: user.repositories.totalCount,
+    }
+    return stats
   }
-  return stats
-  //   const {
-  //     login: username,
-  //     name,
-  //     email,
-  //     location,
-  //     status: { message: status },
-  //     followers: {totalCount: followers}
-  //   } = user
+
+  return getUserStats
+
 }
 
-export default getStats
+export default api
