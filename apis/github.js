@@ -213,7 +213,7 @@ const getUserStats = async function (username) {
     projects: user.projects.totalCount,
     pullRequests: user.pullRequests.totalCount,
     issues: user.issues.totalCount,
-    stared: user.starredRepositories.totalCount,
+    starred: user.starredRepositories.totalCount,
     commits: user.contributionsCollection.totalCommitContributions,
     repositories: user.repositories.totalCount,
   }

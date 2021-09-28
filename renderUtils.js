@@ -1,31 +1,38 @@
 import chalk from 'chalk'
 import { colors } from './config.js'
 
-p = chalk[colors.primary || 'reset']
-s = chalk[colors.secondary || 'reset']
-t = chalk[colors.tertiary || 'reset']
-a = chalk[colors.alternate || 'reset']
-n = chalk.reset
+// FIXME internal, undicumented
+import chalkTemplate from 'chalk/source/templates.js'
+
+const n = chalk.reset
+const p = chalk[colors.primary || 'reset'] || n
+const s = chalk[colors.secondary || 'reset'] || n
+const t = chalk[colors.tertiary || 'reset'] || n
+const a = chalk[colors.alternate || 'reset'] || n
+
+let result = ''
 
 export default {
   info: (key, value) => {
-    p.bold(key)
-    t(': ')
-    s(value)
-    n('\n')
+    result += p.bold(key) + t(': ') + s(value) + n('\n')
   },
 
   title: (value) => {
-    p.bold(value)
-    n('\n')
+    result += p.bold(value) + n('\n')
   },
 
   underline: () => {
-    t('----')
-    n('\n')
+    result += t('----') + n('\n')
   },
 
   blank: () => {
-    n('\n')
+    result += n('\n')
   },
+
+  raw: (str) => {
+    result += chalkTemplate(chalk, str)
+  },
+
+  clear: () => result = "",
+  output: () => result.trim(),
 }

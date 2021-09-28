@@ -4,6 +4,8 @@ import path from 'path'
 import chalk from 'chalk'
 import dotenv from 'dotenv'
 import columnify from 'columnify'
+import { render } from './config.js'
+import renderer from './renderUtils.js'
 import githubAPI from './apis/github.js'
 
 const configDir = path.resolve(os.homedir(), '.userfetch/')
@@ -15,12 +17,13 @@ const stats = await githubAPI.fetch('octocat')
 
 const ascii = fs.readFileSync('./ascii')
 
+render(renderer, stats)
 console.log(
   columnify(
     [
       {
         left: chalk.blue.bold(ascii.toString().replace(/^/gm, '\u2063')), // https://github.com/timoxley/columnify/issues/45#issuecomment-350343321
-        right: JSON.stringify(stats, null, 2),
+        right: renderer.output(),
       },
     ],
     {
