@@ -1,4 +1,3 @@
-import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import chalk from 'chalk'
@@ -15,15 +14,15 @@ dotenv.config({ path: path.resolve(configDir, '.env') })
 githubAPI.authenticate(process.env.github_token)
 const stats = await githubAPI.fetch('octocat')
 
-const ascii = fs.readFileSync('./ascii')
-
 render(renderer, stats)
+const output = renderer.output()
+
 console.log(
   columnify(
     [
       {
-        left: chalk.blue.bold(ascii.toString().replace(/^/gm, '\u2063')), // https://github.com/timoxley/columnify/issues/45#issuecomment-350343321
-        right: renderer.output(),
+        left: output.left,
+        right: output.right,
       },
     ],
     {
@@ -33,23 +32,24 @@ console.log(
     }
   )
 )
+console.log('')
 
 // TODO
-// title("")
-// info("", "")
-// underline()
-// meter("", 0)
-// list("", [""])
-// left()
-// right()
-// raw("", [""])
-// text("")
-// multitext("")
-// command("", "")
+//  - title("")
+//  - info("", "")
+//  - underline()
+//  x meter("", 0)
+//  - list("", [""])
+//  - left()
+//  - right()
+//  * raw(``)
+//  - text("")
+//  x multitext("")
+//  x command("", "")
 
 // TODO
 // cli:
-// --token="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+//  x --token="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 // --user="octocat"
-// --config="./path/to/config.js"
-// --ascii="./path/to/ascii"
+//  x --config="./path/to/config.js"
+//  x --ascii="./path/to/ascii"
