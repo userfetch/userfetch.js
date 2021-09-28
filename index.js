@@ -1,10 +1,10 @@
-import githubAPI from './apis/github.js'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import chalk from 'chalk'
 import dotenv from 'dotenv'
 import columnify from 'columnify'
+import githubAPI from './apis/github.js'
 
 const configDir = path.resolve(os.homedir(), '.userfetch/')
 dotenv.config()

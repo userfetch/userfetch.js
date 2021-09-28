@@ -1,15 +1,16 @@
-export function render(term, variables) {
-  term.title('title')
-  term.underline()
-  term.info('name1', variables.email)
-  term.info('name2', 'aryan')
-  term.blank()
-  term.info('name3', 'aryan')
-  term.info('name4', 'aryan')
+export function render(t, vars) {
+  t.title(vars.login)
+  t.underline()
+  t.info('name', vars.name)
+  t.info('email', vars.email)
+  t.blank()
+  t.info('repos', vars.repositories)
+  t.info('followers', vars.followers)
 }
 
 export const colors = {
-  primary: 'brightGreen',
+  primary: 'blueBright',
   secondary: 'white',
   tertiary: 'gray',
+  alternate: 'white',
 }
