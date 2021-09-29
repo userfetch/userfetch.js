@@ -1,18 +1,31 @@
+#!/usr/bin/env node
+
 import os from 'os'
+import fs from 'fs'
 import path from 'path'
-import chalk from 'chalk'
+
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+
 import dotenv from 'dotenv'
+
 import columnify from 'columnify'
+
+import firstRun from './firstRun.js'
 import { render } from './config.js'
 import renderer from './renderUtils.js'
 import githubAPI from './apis/github.js'
 
+const args = yargs(hideBin(process.argv)).parse()
+
 const configDir = path.resolve(os.homedir(), '.userfetch/')
+if (!fs.existsSync(configDir) || args.debug) await firstRun()
+
 dotenv.config()
 dotenv.config({ path: path.resolve(configDir, '.env') })
 
 githubAPI.authenticate(process.env.github_token)
-const stats = await githubAPI.fetch('octocat')
+const stats = await githubAPI.fetch(args.user)
 
 render(renderer, stats)
 const output = renderer.output()
@@ -50,6 +63,6 @@ console.log('')
 // TODO
 // cli:
 //  x --token="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-// --user="octocat"
-//  x --config="./path/to/config.js"
+//  - --user="octocat"
+//  * --config="./path/to/config.js"
 //  x --ascii="./path/to/ascii"
