@@ -1,18 +1,27 @@
 import fs from 'fs'
 import url from 'url'
 import path from 'path'
+
 import chalk from 'chalk'
 import stripAnsi from 'strip-ansi'
-import { colors } from './config.js'
 
 // FIXME internal, undicumented
 import chalkTemplate from 'chalk/source/templates.js'
 
-const n = chalk.reset
-const p = chalk[colors.primary || 'reset'] || n
-const s = chalk[colors.secondary || 'reset'] || n
-const t = chalk[colors.tertiary || 'reset'] || n
-const a = chalk[colors.alternate || 'reset'] || n
+const Colors = {
+  primary: 'blueBright',
+  secondary: 'white',
+  tertiary: 'gray',
+  alternate: 'whiteBright',
+}
+
+const Symbols = {
+  underline: '-',
+  infoSeparator: ':',
+  listMarker: '-',
+}
+
+const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
 
 let column = 'left'
 let result = {
@@ -31,52 +40,67 @@ export default {
     return this
   },
 
-  ascii: function (filePath) {
-    const dirname = path.dirname(url.fileURLToPath(import.meta.url))
+  ascii: function (configPath, filePath) {
+    const dirname = path.dirname(url.fileURLToPath(configPath))
     filePath = path.resolve(dirname, filePath)
     const ascii = fs.readFileSync(filePath)
-    result[column] += a(ascii.toString()) + n('\n')
+    result[column] += color(Colors.alternate)(ascii.toString()) + '\n'
     return this
   },
 
   title: function (value) {
-    result[column] += p.bold(value) + n('\n')
+    result[column] += color(Colors.primary).bold(value) + '\n'
     return this
   },
 
   underline: function () {
-    const last = stripAnsi(result[column]).split('\n').slice(-2)[0]
-    const uline = new Array(last.length).fill('-').join('')
-    result[column] += t(uline) + n('\n')
+    const last = stripAnsi(result[column]).trim().split('\n').slice(-1)[0]
+    const uline = new Array(last.length).fill(Symbols.underline).join('')
+    result[column] += color(Colors.tertiary)(uline) + '\n'
     return this
   },
 
   info: function (key, value) {
-    result[column] += p.bold(key) + t(': ') + s(value) + n('\n')
+    result[column] +=
+      color(Colors.primary).bold(key) +
+      color(Colors.tertiary)(Symbols.infoSeparator + ' ') +
+      color(Colors.secondary)(value) +
+      '\n'
     return this
   },
 
   list: function (key, values) {
-    result[column] += p.bold(key) + t(': ') + n('\n')
+    result[column] +=
+      color(Colors.primary).bold(key) +
+      color(Colors.tertiary)(Symbols.infoSeparator + ' ') +
+      '\n'
     values.forEach((value) => {
-      result[column] += t('  - ') + s(value) + n('\n')
+      result[column] +=
+        color(Colors.tertiary)('  ' + Symbols.listMarker + ' ') +
+        color(Colors.secondary)(value) +
+        '\n'
     })
     return this
   },
 
   text: function (str) {
-    result[column] += n(str) + n('\n')
+    result[column] += color(Colors.secondary)(str) + '\n'
     return this
   },
 
   blank: function () {
-    result[column] += n('\n')
+    result[column] += '\n'
     return this
   },
 
   raw: function (str) {
-    result[column] += chalkTemplate(chalk, str) + n('\n')
+    result[column] += chalkTemplate(chalk, str) + '\n'
     return this
+  },
+
+  options: ({colors, symbols}) => {
+    Object.assign(Colors, colors)
+    Object.assign(Symbols, symbols)
   },
 
   clear: () => {
@@ -84,6 +108,7 @@ export default {
     result.right = ''
     column = 'left'
   },
+
   output: () => {
     return {
       left: result.left.replace(/\s+$/, ''),

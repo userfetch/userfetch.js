@@ -12,14 +12,16 @@ import dotenv from 'dotenv'
 import columnify from 'columnify'
 
 import firstRun from './firstRun.js'
-import { render } from './config.js'
+import { render, colors, symbols } from './config.js'
 import renderer from './renderUtils.js'
 import githubAPI from './apis/github.js'
+
+// start spinner
 
 const args = yargs(hideBin(process.argv)).parse()
 
 const configDir = path.resolve(os.homedir(), '.userfetch/')
-if (!fs.existsSync(configDir) || args.debug) await firstRun()
+if (!fs.existsSync(configDir) || args.firstrun) await firstRun()
 
 dotenv.config()
 dotenv.config({ path: path.resolve(configDir, '.env') })
@@ -27,8 +29,11 @@ dotenv.config({ path: path.resolve(configDir, '.env') })
 githubAPI.authenticate(process.env.github_token)
 const stats = await githubAPI.fetch(args.user)
 
+renderer.options({colors, symbols})
 render(renderer, stats)
 const output = renderer.output()
+
+// stop spinner
 
 console.log(
   columnify(
@@ -51,7 +56,7 @@ console.log('')
 //  - title("")
 //  - info("", "")
 //  - underline()
-//  x meter("", 0)
+//  x bar("", 0)
 //  - list("", [""])
 //  - left()
 //  - right()

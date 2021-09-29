@@ -24,6 +24,7 @@ const userDataFragment = gql`
     email
     createdAt
     location
+    bio
     status {
       message
       emoji
@@ -212,6 +213,7 @@ const getUserStats = async function (username) {
     name: user.name || user.login,
     email: user.email,
     location: user.location || '???',
+    bio: user.bio || '',
     status: user.status?.message || '',
     followers: user.followers.totalCount,
     following: user.following.totalCount,
