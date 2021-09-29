@@ -1,4 +1,4 @@
-import { graphql } from '@octokit/graphql'
+import { graphql, GraphqlResponseError } from '@octokit/graphql'
 
 const gql = String.raw
 
@@ -190,8 +190,19 @@ const getUser = async function (username) {
     query = querySelf + userDataFragment
   }
 
-  const { user } = await graphql(query, { ...variables, headers })
-  return user
+  try {
+    const { user } = await graphql(query, { ...variables, headers })
+    return user
+  }
+  
+  catch (error) {
+    console.log('ERROR!')
+    if (error instanceof GraphqlResponseError) {
+      console.error(JSON.stringify(error.errors, null, 2))
+      process.exit(process.exitCode)
+    }
+    throw error
+  }
 }
 
 const getUserStats = async function (username) {
