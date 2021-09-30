@@ -17,12 +17,51 @@ import githubAPI from './apis/github.js'
 
 // start spinner
 
-const args = yargs(hideBin(process.argv)).parse()
+const args = yargs(hideBin(process.argv))
+  .option('user', {
+    alias: 'u',
+    describe: 'Github username to fetch',
+    type: 'string',
+  })
+  .option('config', {
+    alias: 'c',
+    describe: 'Path to config.mjs file',
+    type: 'string',
+  })
+  .option('svg', {
+    alias: 's',
+    describe: 'Path to save the generated SVG to',
+    type: 'string',
+  })
+  .option('no-color', {
+    alias: 'nocolor',
+    describe: 'Disable colored output',
+    type: 'boolean',
+    default: false,
+  })
+  .option('debug', {
+    alias: 'd',
+    describe: 'Show additional debugging output',
+    type: 'boolean',
+    default: false,
+  })
+  .option('first-run', {
+    alias: 'firstrun',
+    describe:
+      'Trigger the firstrun script.\nWARNING: This will overwrite your config directory',
+    type: 'boolean',
+    default: false,
+  })
+  .help()
+  .alias({
+    help: 'h',
+    version: 'v',
+  })
+  .parse()
 
 const configDir = path.resolve(os.homedir(), '.userfetch/')
-if (!fs.existsSync(configDir) || args.firstrun) {
+if (!fs.existsSync(configDir) || args.firstRun) {
   await firstRun()
-  process.exit(0)
 }
 
 dotenv.config()
@@ -57,4 +96,4 @@ console.log(
 )
 console.log('')
 
-if (args.debug) console.log(stats)
+if (args.debug) console.log({ args, stats })

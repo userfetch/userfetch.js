@@ -10,6 +10,7 @@ export default async function() {
     console.log(message)
     const configDir = path.resolve(os.homedir(), '.userfetch/')
     if (!fs.existsSync(configDir)) fs.mkdirSync(configDir)
+    // TODO do not overwrite this
     fs.promises.copyFile('./configDir/.env', path.resolve(configDir, '.env'))
     fs.promises.copyFile('./configDir/config.mjs', path.resolve(configDir, 'config.mjs'))
     fs.promises.copyFile('./configDir/ascii', path.resolve(configDir, 'ascii'))
