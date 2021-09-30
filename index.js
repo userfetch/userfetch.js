@@ -11,8 +11,8 @@ import dotenv from 'dotenv'
 
 import columnify from 'columnify'
 
-import firstRun from './firstRun.js'
-import renderer from './renderUtils.js'
+import firstRun from './utils/firstRun.js'
+import renderer from './utils/renderUtils.js'
 import githubAPI from './apis/github.js'
 
 // start spinner
