@@ -64,23 +64,3 @@ console.log(
 console.log('')
 
 if (args.debug) console.log(stats)
-
-// TODO
-//  - title("")
-//  - info("", "")
-//  - underline()
-//  x bar("", 0)
-//  - list("", [""])
-//  - left()
-//  - right()
-//  * raw(``)
-//  - text("")
-//  x multitext("")
-//  x command("", "")
-
-// TODO
-// cli:
-//  x --token="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-//  - --user="octocat"
-//  * --config="./path/to/config.js"
-//  x --ascii="./path/to/ascii"
