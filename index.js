@@ -12,7 +12,6 @@ import dotenv from 'dotenv'
 import columnify from 'columnify'
 
 import firstRun from './firstRun.js'
-import { render, colors, symbols } from './config.js'
 import renderer from './renderUtils.js'
 import githubAPI from './apis/github.js'
 
@@ -21,7 +20,10 @@ import githubAPI from './apis/github.js'
 const args = yargs(hideBin(process.argv)).parse()
 
 const configDir = path.resolve(os.homedir(), '.userfetch/')
-if (!fs.existsSync(configDir) || args.firstrun) await firstRun()
+if (!fs.existsSync(configDir) || args.firstrun) {
+  await firstRun()
+  process.exit(0)
+}
 
 dotenv.config()
 dotenv.config({ path: path.resolve(configDir, '.env') })
@@ -29,7 +31,11 @@ dotenv.config({ path: path.resolve(configDir, '.env') })
 githubAPI.authenticate(process.env.github_token)
 const stats = await githubAPI.fetch(args.user)
 
-renderer.options({colors, symbols})
+const config = await import(path.resolve(configDir, 'config.mjs'));
+const render = args.user ? config.renderDefault : config.render
+
+renderer.options({ colors: config.colors, symbols: config.symbols })
+
 render(renderer, stats)
 const output = renderer.output()
 
@@ -47,10 +53,17 @@ console.log(
       columnSplitter: '   ',
       preserveNewLines: true,
       showHeaders: false,
+      config: {
+        right: {
+          maxWidth: 60,
+        },
+      },
     }
   )
 )
 console.log('')
+
+if (args.debug) console.log(stats)
 
 // TODO
 //  - title("")
