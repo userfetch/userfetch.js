@@ -12,7 +12,7 @@ import dotenv from 'dotenv'
 import columnify from 'columnify'
 
 import firstRun from './utils/firstRun.js'
-import renderer from './utils/renderUtils.js'
+import renderer from './utils/renderer.js'
 import githubAPI from './apis/github.js'
 
 // start spinner
