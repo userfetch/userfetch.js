@@ -1,9 +1,10 @@
 {
-  "name": "aryan02420",
+  "name": "userfetch",
   "version": "1.0.0",
-  "description": "![github stats](https://github-readme-stats.vercel.app/api?show_icons=true&username=aryan02420)<br/> ![github stats](https://github-readme-stats.vercel.app/api/top-langs/?layout=compact&username=aryan02420)",
+  "description": "",
   "main": "index.js",
   "type": "module",
+  "bin": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development node index.js",
@@ -11,20 +12,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aryan02420/aryan02420.git"
+    "url": "git+https://github.com/aryan02420/userfetch.git"
   },
   "author": "aryan02420",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aryan02420/aryan02420/issues"
+    "url": "https://github.com/aryan02420/userfetch/issues"
   },
-  "homepage": "https://github.com/aryan02420/aryan02420#readme",
+  "homepage": "https://github.com/aryan02420/userfetch#readme",
   "dependencies": {
     "@octokit/graphql": "^4.8.0",
     "chalk": "^4.1.2",
     "columnify": "^1.5.4",
     "dotenv": "^10.0.0",
     "strip-ansi": "^7.0.1",
+    "wrap-ansi": "^8.0.1",
     "yargs": "^17.2.1"
   }
 }

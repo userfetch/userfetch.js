@@ -31,13 +31,12 @@ dotenv.config({ path: path.resolve(configDir, '.env') })
 githubAPI.authenticate(process.env.github_token)
 const stats = await githubAPI.fetch(args.user)
 
-const config = await import(path.resolve(configDir, 'config.mjs'));
-const render = args.user ? config.renderDefault : config.render
+const config = await import(path.resolve(configDir, 'config.mjs'))
+const template = args.user ? config.templateDefault : config.template
 
-renderer.options({ colors: config.colors, symbols: config.symbols })
-
-render(renderer, stats)
-const output = renderer.output()
+const output = renderer
+  .options({ colors: config.colors, symbols: config.symbols })
+  .render(template, stats)
 
 // stop spinner
 
@@ -50,14 +49,9 @@ console.log(
       },
     ],
     {
-      columnSplitter: '   ',
+      columnSplitter: config.symbols.columnSeparator,
       preserveNewLines: true,
       showHeaders: false,
-      config: {
-        right: {
-          maxWidth: 60,
-        },
-      },
     }
   )
 )

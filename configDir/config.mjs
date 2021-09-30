@@ -1,31 +1,32 @@
-export function render(t, vars) {
+export function template(t, data) {
   t.left()
     .ascii(import.meta.url, './ascii')
     .right()
-    .title(vars.username)
+    .title(data.username)
     .underline()
-  if (vars.bio) t.text(vars.bio)
+  if (data.bio) t.text(data.bio)
   t.blank()
-    .info('repos', vars.repositories)
-    .info('followers', vars.followers)
+    .info('repos', data.repositories)
+    .info('followers', data.followers)
 }
 
-export function renderDefault(t, vars) {
+export function templateDefault(t, data) {
   t.left()
     .ascii(import.meta.url, './ascii')
     .right()
-    .title(vars.username)
+    .title(data.username)
     .underline()
-  if (vars.bio) t.text(vars.bio)
+  if (data.bio) t.text(data.bio)
   t.blank()
-    .info('repos', vars.repositories)
-    .info('followers', vars.followers)
+    .info('repos', data.repositories)
+    .info('followers', data.followers)
 }
 
 export const symbols = {
   underline: '-',
   infoSeparator: ':',
   listMarker: '-',
+  columnSeparator: '   ',
 }
 
 export const colors = {

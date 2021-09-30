@@ -4,6 +4,8 @@ import path from 'path'
 
 import chalk from 'chalk'
 import stripAnsi from 'strip-ansi'
+import wrapAnsi from 'wrap-ansi';
+
 
 // FIXME internal, undicumented
 import chalkTemplate from 'chalk/source/templates.js'
@@ -19,7 +21,13 @@ const Symbols = {
   underline: '-',
   infoSeparator: ':',
   listMarker: '-',
+  columnSeparator: '   ',
 }
+
+const Meta = {
+  maxWidth: 60,
+}
+
 
 const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
 
@@ -84,7 +92,7 @@ export default {
   },
 
   text: function (str) {
-    result[column] += color(Colors.secondary)(str) + '\n'
+    result[column] += wrapAnsi(color(Colors.secondary)(str), Meta.maxWidth) + '\n'
     return this
   },
 
@@ -94,25 +102,33 @@ export default {
   },
 
   raw: function (str) {
-    result[column] += chalkTemplate(chalk, str) + '\n'
+    result[column] += wrapAnsi(chalkTemplate(chalk, str), Meta.maxWidth) + '\n'
     return this
   },
 
-  options: ({colors, symbols}) => {
+  options: function ({ colors, symbols }) {
     Object.assign(Colors, colors)
     Object.assign(Symbols, symbols)
+    return this
   },
 
-  clear: () => {
+  clear: function () {
     result.left = ''
     result.right = ''
     column = 'left'
+    return this
   },
 
-  output: () => {
+  output: function () {
     return {
       left: result.left.replace(/\s+$/, ''),
       right: result.right.replace(/\s+$/, ''),
     }
+  },
+
+  render: function (template, data) {
+    this.clear()
+    template(this, data)
+    return this.output()
   },
 }
