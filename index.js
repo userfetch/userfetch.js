@@ -74,7 +74,11 @@ const config = await import(path.resolve(configDir, 'config.mjs'))
 const template = args.user ? config.templateDefault : config.template
 
 const output = renderer
-  .options({ colors: config.colors, symbols: config.symbols })
+  .options({
+    colors: config.colors,
+    symbols: config.symbols,
+    meta: config.meta,
+  })
   .render(template, stats)
 
 // stop spinner
@@ -96,4 +100,4 @@ console.log(
 )
 console.log('')
 
-if (args.debug) console.log({ args, stats })
+if (args.debug) console.log({ args, stats, config, configDir })

@@ -3,9 +3,8 @@ import url from 'url'
 import path from 'path'
 
 import chalk from 'chalk'
+import wrapAnsi from 'wrap-ansi'
 import stripAnsi from 'strip-ansi'
-import wrapAnsi from 'wrap-ansi';
-
 
 // FIXME internal, undicumented
 import chalkTemplate from 'chalk/source/templates.js'
@@ -27,7 +26,6 @@ const Symbols = {
 const Meta = {
   maxWidth: 60,
 }
-
 
 const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
 
@@ -92,7 +90,8 @@ export default {
   },
 
   text: function (str) {
-    result[column] += wrapAnsi(color(Colors.secondary)(str), Meta.maxWidth) + '\n'
+    result[column] +=
+      wrapAnsi(color(Colors.secondary)(str), Meta.maxWidth) + '\n'
     return this
   },
 
@@ -106,9 +105,10 @@ export default {
     return this
   },
 
-  options: function ({ colors, symbols }) {
+  options: function ({ colors = {}, symbols = {}, meta = {} }) {
     Object.assign(Colors, colors)
     Object.assign(Symbols, symbols)
+    Object.assign(Meta, meta)
     return this
   },
 

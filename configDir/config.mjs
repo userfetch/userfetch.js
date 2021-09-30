@@ -1,25 +1,25 @@
-export function template(t, data) {
-  t.left()
-    .ascii(import.meta.url, './ascii')
-    .right()
-    .title(data.username)
-    .underline()
-  if (data.bio) t.text(data.bio)
-  t.blank()
-    .info('repos', data.repositories)
-    .info('followers', data.followers)
+export function template({left, right, ascii, title, underline, text, blank, info}, data) {
+  left()
+  ascii(import.meta.url, './ascii')
+  right()
+  title(data.username)
+  underline()
+  if (data.bio) text(data.bio)
+  blank()
+  info('repos', data.repositories)
+  info('followers', data.followers)
 }
 
-export function templateDefault(t, data) {
-  t.left()
-    .ascii(import.meta.url, './ascii')
-    .right()
-    .title(data.username)
-    .underline()
-  if (data.bio) t.text(data.bio)
-  t.blank()
-    .info('repos', data.repositories)
-    .info('followers', data.followers)
+export function templateDefault({left, right, ascii, title, underline, text, blank, info}, data) {
+  left()
+  ascii(import.meta.url, './ascii')
+  right()
+  title(data.username)
+  underline()
+  if (data.bio) text(data.bio)
+  blank()
+  info('repos', data.repositories)
+  info('followers', data.followers)
 }
 
 export const symbols = {
@@ -34,6 +34,10 @@ export const colors = {
   secondary: 'white',
   tertiary: 'gray',
   alternate: 'whiteBright',
+}
+
+export const meta = {
+  maxWidth: 60
 }
 
 export const terminal = {
