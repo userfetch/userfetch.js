@@ -36,19 +36,19 @@ const userDataFragment = gql`
     isGitHubStar
     isHireable
     isSiteAdmin
-    followers(first: 5) {
+    followers(first: 3) {
       totalCount
       recent: nodes {
         login
       }
     }
-    following(first: 5) {
+    following(first: 3) {
       totalCount
       recent: nodes {
         login
       }
     }
-    sponsors(first: 5) {
+    sponsors(first: 3) {
       totalCount
       recent: nodes {
         ... on User {
@@ -59,7 +59,7 @@ const userDataFragment = gql`
         }
       }
     }
-    sponsoring(first: 5) {
+    sponsoring(first: 3) {
       totalCount
       recent: nodes {
         ... on User {
@@ -72,7 +72,7 @@ const userDataFragment = gql`
     }
     gists(
       privacy: PUBLIC
-      first: 5
+      first: 3
       orderBy: { field: UPDATED_AT, direction: DESC }
     ) {
       totalCount
@@ -80,13 +80,13 @@ const userDataFragment = gql`
         name
       }
     }
-    organizations(first: 5) {
+    organizations(first: 3) {
       totalCount
       recent: nodes {
         login
       }
     }
-    packages(first: 5) {
+    packages(first: 3) {
       totalCount
       recent: nodes {
         name
@@ -98,13 +98,13 @@ const userDataFragment = gql`
         }
       }
     }
-    projects(first: 5, orderBy: { field: UPDATED_AT, direction: DESC }) {
+    projects(first: 3, orderBy: { field: UPDATED_AT, direction: DESC }) {
       totalCount
       recent: nodes {
         name
       }
     }
-    pullRequests(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
+    pullRequests(first: 3, orderBy: { field: CREATED_AT, direction: DESC }) {
       totalCount
       recent: nodes {
         number
@@ -115,7 +115,7 @@ const userDataFragment = gql`
         }
       }
     }
-    issues(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
+    issues(first: 3, orderBy: { field: CREATED_AT, direction: DESC }) {
       totalCount
       recent: nodes {
         number
@@ -138,7 +138,7 @@ const userDataFragment = gql`
       }
     }
     starredRepositories(
-      first: 5
+      first: 3
       orderBy: { field: STARRED_AT, direction: DESC }
     ) {
       totalCount
@@ -167,6 +167,11 @@ const userDataFragment = gql`
           }
         }
         stargazerCount
+      }
+    }
+    topRepositories(orderBy: {field: UPDATED_AT, direction: DESC}, first: 3) {
+      nodes {
+        nameWithOwner
       }
     }
   }
@@ -216,19 +221,32 @@ const getUserStats = async function (username) {
     bio: user.bio || '',
     status: user.status?.message || '',
     followers: user.followers.totalCount,
+    recentFollowers: user.followers.recent.map(x => x.login),
     following: user.following.totalCount,
+    recentFollowing: user.following.recent.map(x => x.login),
     sponsors: user.sponsors.totalCount,
+    recentSponsors: user.sponsors.recent.map(x => x.login),
     sponsoring: user.sponsoring.totalCount,
+    recentSponsoring: user.sponsoring.recent.map(x => x.login),
     gists: user.gists.totalCount,
+    recentGists: user.gists.recent.map(x => x.name),
     organizations: user.organizations.totalCount,
+    recentOrganizations: user.organizations.recent.map(x => x.login),
     contributedTo: user.repositoriesContributedTo.totalCount,
+    recentContributedTo: user.repositoriesContributedTo.recent.map(x => x.nameWithOwner),
     packages: user.packages.totalCount,
+    recentPackages: user.packages.recent.map(x => `${x.packageType}:${x.name}@${x.versions.nodes[0].version}`),
     projects: user.projects.totalCount,
+    recentProjects: user.projects.recent.map(x => x.name),
     pullRequests: user.pullRequests.totalCount,
+    recentPullRequests: user.pullRequests.recent.map(x => `#${x.number} ${x.repository.nameWithOwner}`),
     issues: user.issues.totalCount,
+    recentIssues: user.issues.recent.map(x => `#${x.number} ${x.repository.nameWithOwner}`),
     starred: user.starredRepositories.totalCount,
+    recentStarred: user.starredRepositories.recent.map(x => x.nameWithOwner),
     commits: user.contributionsCollection.totalCommitContributions,
     repositories: user.repositories.totalCount,
+    topRepositories: user.topRepositories.nodes.map(x => x.nameWithOwner),
   }
   return stats
 }
