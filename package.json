@@ -5,6 +5,11 @@
   "main": "index.js",
   "type": "module",
   "bin": "./index.js",
+  "files": [
+    "apis/**/*",
+    "configDir/**/*",
+    "utils/**/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development node index.js",
