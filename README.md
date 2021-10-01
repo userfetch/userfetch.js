@@ -1,94 +1,10 @@
 # userfetch
 
-## Docs
+> super customizable, neofetch inspired tool to display github user stats
 
-### config.mjs
+![Screenshot](https://user-images.githubusercontent.com/58023300/135631553-12bee1f7-528c-43e5-8025-08817a7c8cbd.png)
 
-#### render
+## [Docs](https://github.com/aryan02420/userfetch/docs "Docs")
 
-##### ascii
-##### title
-##### underline
-##### info
-##### list
-##### text
-##### bar
-##### blank
-##### raw
-##### left
-##### right
 
-##### variables
-
-###### username
-###### name
-###### email
-###### location
-###### bio
-###### status
-###### followers
-###### following
-###### sponsors
-###### sponsoring
-###### gists
-###### organizations
-###### contributedTo
-###### packages
-###### projects
-###### pullRequests
-###### issues
-###### starred
-###### commits
-###### repositories
-
-#### renderDefault
-
-#### colors
-
-##### primary
-##### secondary
-##### tertiary
-##### alternate
-
-#### symbols
-
-##### underline
-##### infoSeparator
-##### listMarker
-
-#### terminal
-
-##### background
-##### black
-##### red
-##### green
-##### yellow
-##### blue
-##### magenta
-##### cyan
-##### white
-##### blackBright
-##### redBright
-##### greenBright
-##### yellowBright
-##### blueBright
-##### magentaBright
-##### cyanBright
-##### whiteBright
-
-### CLI
-
-#### -h --help
-
-#### -v --version
-
-#### -c --config
-
-#### -u --user
-
-#### --no-color --nocolor
-
-#### --first-run --firstrun
-
-#### -d --debug
 
