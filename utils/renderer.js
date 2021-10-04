@@ -6,6 +6,8 @@ import chalk from 'chalk'
 import wrapAnsi from 'wrap-ansi'
 import stripAnsi from 'strip-ansi'
 
+import columnify from 'columnify'
+
 // FIXME internal, undicumented
 import chalkTemplate from 'chalk/source/templates.js'
 
@@ -120,10 +122,22 @@ export default {
   },
 
   output: function () {
-    return {
-      left: result.left.replace(/\s+$/, ''),
-      right: result.right.replace(/\s+$/, ''),
-    }
+    let leftCol = result.left.replace(/\s+$/, '')
+    let rightCol = result.right.replace(/\s+$/, '')
+    let fullOutp = columnify(
+      [
+        {
+          left: leftCol,
+          right: rightCol,
+        },
+      ],
+      {
+        columnSplitter: Symbols.columnSeparator,
+        preserveNewLines: true,
+        showHeaders: false,
+      }
+    )
+    return fullOutp
   },
 
   render: function (template, data) {

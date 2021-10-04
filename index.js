@@ -9,8 +9,6 @@ import { hideBin } from 'yargs/helpers'
 
 import dotenv from 'dotenv'
 
-import columnify from 'columnify'
-
 import firstRun from './utils/firstRun.js'
 import renderer from './utils/renderer.js'
 import githubAPI from './apis/github.js'
@@ -83,21 +81,7 @@ const output = renderer
 
 // stop spinner
 
-console.log(
-  columnify(
-    [
-      {
-        left: output.left,
-        right: output.right,
-      },
-    ],
-    {
-      columnSplitter: config.symbols.columnSeparator,
-      preserveNewLines: true,
-      showHeaders: false,
-    }
-  )
-)
+console.log(output)
 console.log('')
 
 if (args.debug) console.log({ args, stats, config, configDir })
