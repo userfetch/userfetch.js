@@ -5,11 +5,13 @@ import fs from 'fs'
 import path from 'path'
 
 import dotenv from 'dotenv'
+import inquirer from 'inquirer'
 
 import yargs from './utils/yargs.js'
 import githubAPI from './apis/github.js'
 import firstRun from './utils/firstRun.js'
 import renderer from './utils/renderer.js'
+import saveToken from './utils/saveToken.js'
 
 // start spinner
 
@@ -18,6 +20,18 @@ const args = yargs(process.argv)
 const configDir = path.join(os.homedir(), '.userfetch/')
 if (!fs.existsSync(configDir) || args.firstRun) {
   await firstRun()
+}
+
+if (args.token) {
+  const { github_pat } = await inquirer.prompt([
+    {
+      type: 'password',
+      mask: '*',
+      name: 'github_pat',
+      message: 'GitHub PAT',
+    },
+  ])
+  await saveToken(github_pat)
 }
 
 dotenv.config()
