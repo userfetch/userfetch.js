@@ -16,8 +16,6 @@ Show version number
 #### `-c` `--config`
 *[string]*
 
-> not yet implemented
-
 Path to a custom config file
 
 

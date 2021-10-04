@@ -37,11 +37,16 @@ if (args.token) {
 dotenv.config()
 dotenv.config({ path: path.join(configDir, '.env') })
 
+let config
+if (args.config) {
+  config = await import(path.resolve(process.cwd(), args.config))
+} else {
+  config = await import(path.join(configDir, 'config.mjs'))
+}
+const template = args.user ? config.templateDefault : config.template
+
 githubAPI.authenticate(process.env.github_token)
 const stats = await githubAPI.fetch(args.user)
-
-const config = await import(path.join(configDir, 'config.mjs'))
-const template = args.user ? config.templateDefault : config.template
 
 const output = renderer
   .options({
