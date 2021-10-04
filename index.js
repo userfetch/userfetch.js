@@ -4,8 +4,7 @@ import os from 'os'
 import fs from 'fs'
 import path from 'path'
 
-import yargs from 'yargs'
-import { hideBin } from 'yargs/helpers'
+import yargs from './utils/yargs.js'
 
 import dotenv from 'dotenv'
 
@@ -15,47 +14,7 @@ import githubAPI from './apis/github.js'
 
 // start spinner
 
-const args = yargs(hideBin(process.argv))
-  .option('user', {
-    alias: 'u',
-    describe: 'Github username to fetch',
-    type: 'string',
-  })
-  .option('config', {
-    alias: 'c',
-    describe: 'Path to config.mjs file',
-    type: 'string',
-  })
-  .option('svg', {
-    alias: 's',
-    describe: 'Path to save the generated SVG to',
-    type: 'string',
-  })
-  .option('no-color', {
-    alias: 'nocolor',
-    describe: 'Disable colored output',
-    type: 'boolean',
-    default: false,
-  })
-  .option('debug', {
-    alias: 'd',
-    describe: 'Show additional debugging output',
-    type: 'boolean',
-    default: false,
-  })
-  .option('first-run', {
-    alias: 'firstrun',
-    describe:
-      'Trigger the firstrun script.\nWARNING: This will overwrite your config directory',
-    type: 'boolean',
-    default: false,
-  })
-  .help()
-  .alias({
-    help: 'h',
-    version: 'v',
-  })
-  .parse()
+const args = yargs(process.argv)
 
 const configDir = path.resolve(os.homedir(), '.userfetch/')
 if (!fs.existsSync(configDir) || args.firstRun) {
