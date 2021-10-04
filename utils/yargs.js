@@ -20,7 +20,7 @@ export default function (args) {
     })
     .option('token', {
       alias: 't',
-      describe: 'Github PAT',
+      describe: 'prompts Github PAT input',
       type: 'boolean',
       default: false,
     })
