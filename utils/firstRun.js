@@ -2,21 +2,27 @@ import os from 'os'
 import fs from 'fs'
 import path from 'path'
 
-const configDir = path.resolve(os.homedir(), '.userfetch/')
-const message = 
-`To use this app you must first create a Github Personal Access Token
-Go to https://github.com/settings/tokens/new and generate a new token with \`repo\`, \`read:org\`, and \`user\` scopes
-then update the .env file at ${configDir} with your token
+const configDir = path.join(os.homedir(), '.userfetch/')
 
-run \`userfetch --help\` for more options
-see https://github.com/aryan02420/userfetch/docs for more info
+const message = `To use this app you must first create a Github Personal Access Token
+Go to https://github.com/settings/tokens/new and generate a new token
+with \`repo\`, \`read:org\`, and \`user\` scopes
+Then run \`userfetch --token\` and use stdin to enter the token
+
+Run \`userfetch --help\` to get a complete list of available options
+Check https://github.com/aryan02420/userfetch/tree/master/docs for more info
 `
 
-export default async function() {
-    console.log(message)
-    if (!fs.existsSync(configDir)) fs.mkdirSync(configDir)
-    // TODO do not overwrite this
-    fs.promises.copyFile('./configDir/.env', path.resolve(configDir, '.env'))
-    fs.promises.copyFile('./configDir/config.mjs', path.resolve(configDir, 'config.mjs'))
-    fs.promises.copyFile('./configDir/ascii', path.resolve(configDir, 'ascii'))
+export default async function () {
+  console.log(message)
+  if (!fs.existsSync(configDir)) fs.mkdirSync(configDir)
+  try {
+    await fs.promises.copyFile(
+      './stubs/.env',
+      path.join(configDir, '.env'),
+      fs.constants.COPYFILE_EXCL
+    )
+  } catch (err) {}
+  fs.promises.copyFile('./stubs/config.mjs', path.join(configDir, 'config.mjs'))
+  fs.promises.copyFile('./stubs/ascii', path.join(configDir, 'ascii'))
 }
