@@ -1,4 +1,4 @@
-export function template({left, right, ascii, title, underline, text, blank, info}, data) {
+export function template({ left, right, ascii, title, underline, info, list, text, blank, raw }, data) {
   left()
   ascii(import.meta.url, './ascii')
   right()
@@ -10,7 +10,7 @@ export function template({left, right, ascii, title, underline, text, blank, inf
   info('followers', data.followers)
 }
 
-export function templateDefault({left, right, ascii, title, underline, text, blank, info}, data) {
+export function templateDefault({ left, right, ascii, title, underline, info, list, text, blank, raw }, data) {
   left()
   ascii(import.meta.url, './ascii')
   right()

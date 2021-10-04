@@ -8,8 +8,8 @@ import stripAnsi from 'strip-ansi'
 
 import columnify from 'columnify'
 
-// FIXME internal, undicumented
-import chalkTemplate from 'chalk/source/templates.js'
+import chalkTemplate from './chalkTemplate.js'
+
 
 const Colors = {
   primary: 'blueBright',
@@ -103,7 +103,7 @@ export default {
   },
 
   raw: function (str) {
-    result[column] += wrapAnsi(chalkTemplate(chalk, str), Meta.maxWidth) + '\n'
+    result[column] += wrapAnsi(chalkTemplate(str), Meta.maxWidth) + '\n'
     return this
   },
 
