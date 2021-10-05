@@ -7,7 +7,7 @@
   "bin": "./index.js",
   "files": [
     "apis/**/*",
-    "configDir/**/*",
+    "stubs/**/*",
     "renderer/**/*",
     "utils/**/*"
   ],
