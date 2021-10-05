@@ -10,8 +10,9 @@ import inquirer from 'inquirer'
 import yargs from './utils/yargs.js'
 import githubAPI from './apis/github.js'
 import firstRun from './utils/firstRun.js'
-import renderer from './utils/renderer.js'
 import saveToken from './utils/saveToken.js'
+
+import renderer from './renderer/terminal.js'
 
 // start spinner
 

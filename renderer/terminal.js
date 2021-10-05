@@ -8,7 +8,7 @@ import stripAnsi from 'strip-ansi'
 
 import columnify from 'columnify'
 
-import chalkTemplate from './chalkTemplate.js'
+import chalkTemplate from '../utils/chalkTemplate.js'
 
 
 const Colors = {
