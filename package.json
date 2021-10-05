@@ -31,6 +31,7 @@
     "columnify": "^1.5.4",
     "dotenv": "^10.0.0",
     "inquirer": "^8.1.5",
+    "ora": "^6.0.1",
     "strip-ansi": "^7.0.1",
     "wrap-ansi": "^8.0.1",
     "yargs": "^17.2.1"

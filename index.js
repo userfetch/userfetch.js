@@ -7,6 +7,8 @@ import path from 'path'
 import dotenv from 'dotenv'
 import inquirer from 'inquirer'
 
+import ora from 'ora'
+
 import yargs from './utils/yargs.js'
 import githubAPI from './apis/github.js'
 import firstRun from './utils/firstRun.js'
@@ -14,16 +16,21 @@ import saveToken from './utils/saveToken.js'
 
 import renderer from './renderer/terminal.js'
 
-// start spinner
+
+
+const spinner = ora({spinner: 'line', color: 'gray'}).start()
 
 const args = yargs(process.argv)
 
 const configDir = path.join(os.homedir(), '.userfetch/')
 if (!fs.existsSync(configDir) || args.firstRun) {
+  spinner.stop()
   await firstRun()
+  spinner.start()
 }
 
 if (args.token) {
+  spinner.stop()
   const { github_token } = await inquirer.prompt([
     {
       type: 'password',
@@ -33,6 +40,7 @@ if (args.token) {
     },
   ])
   await saveToken(github_token)
+  spinner.start()
 }
 
 dotenv.config()
@@ -57,7 +65,8 @@ const output = renderer
   })
   .render(template, stats)
 
-// stop spinner
+
+spinner.stop()
 
 console.log(output)
 console.log('')
