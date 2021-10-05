@@ -5,14 +5,13 @@ import fs from 'fs'
 import path from 'path'
 
 import dotenv from 'dotenv'
-import inquirer from 'inquirer'
 
 import ora from 'ora'
 
 import yargs from './utils/yargs.js'
 import githubAPI from './apis/github.js'
 import firstRun from './utils/firstRun.js'
-import saveToken from './utils/saveToken.js'
+import getAndSaveToken from './utils/getAndSaveToken.js'
 
 import renderer from './renderer/terminal.js'
 
@@ -31,15 +30,7 @@ if (!fs.existsSync(configDir) || args.firstRun) {
 
 if (args.token) {
   spinner.stop()
-  const { github_token } = await inquirer.prompt([
-    {
-      type: 'password',
-      mask: '*',
-      name: 'github_token',
-      message: 'GitHub PAT (skip)',
-    },
-  ])
-  await saveToken(github_token)
+  await getAndSaveToken()
   spinner.start()
 }
 
