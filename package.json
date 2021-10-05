@@ -8,6 +8,7 @@
   "files": [
     "apis/**/*",
     "configDir/**/*",
+    "renderer/**/*",
     "utils/**/*"
   ],
   "scripts": {
