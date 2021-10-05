@@ -24,15 +24,15 @@ if (!fs.existsSync(configDir) || args.firstRun) {
 }
 
 if (args.token) {
-  const { github_pat } = await inquirer.prompt([
+  const { github_token } = await inquirer.prompt([
     {
       type: 'password',
       mask: '*',
-      name: 'github_pat',
-      message: 'GitHub PAT',
+      name: 'github_token',
+      message: 'GitHub PAT (skip)',
     },
   ])
-  await saveToken(github_pat)
+  await saveToken(github_token)
 }
 
 dotenv.config()
