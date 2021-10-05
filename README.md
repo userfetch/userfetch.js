@@ -19,7 +19,7 @@ userfetch
 ```
 
 
-### [Docs](https://github.com/aryan02420/userfetch/wiki/Docs "Docs")
+### [Docs](https://github.com/userfetch/userfetch.js/wiki/Docs "Docs")
 
 ### Roadmap
 

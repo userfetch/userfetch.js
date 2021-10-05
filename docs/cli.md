@@ -29,7 +29,7 @@
     <tr>
         <td><code>-t</code> <code>--token</code></td>
         <td><em>[boolean] [optional]</em></td>
-        <td>Asks for your GitHub PAT through stdin<br>The token must have <code>repo</code>, <code>read:org</code>, and <code>user</code> scopes</td>
+        <td>Asks for your GitHub PAT through stdin<br>The token must have <code>repo</code>, <code>read:org</code>, <code>read:user</code>, and <code>user:email</code> scopes</td>
     </tr>
     <tr>
         <td><code>--ci</code></td>

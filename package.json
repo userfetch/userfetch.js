@@ -1,7 +1,7 @@
 {
   "name": "userfetch",
   "version": "1.3.2",
-  "description": "",
+  "description": "super customizable, neofetch inspired tool to display github user stats",
   "main": "index.js",
   "type": "module",
   "bin": "./index.js",
@@ -12,20 +12,24 @@
     "utils/**/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development node index.js",
-    "start": "NODE_ENV=production node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aryan02420/userfetch.git"
+    "url": "git+https://github.com/userfetch/userfetch.js.git"
   },
   "author": "aryan02420",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aryan02420/userfetch/issues"
+    "url": "https://github.com/userfetch/userfetch.js/issues"
   },
-  "homepage": "https://github.com/aryan02420/userfetch#readme",
+  "homepage": "https://github.com/userfetch/userfetch.js#readme",
+  "keywords": [
+    "neofetch",
+    "github-api",
+    "github-profile",
+    "cli"
+  ],
   "dependencies": {
     "@octokit/graphql": "^4.8.0",
     "chalk": "^4.1.2",
