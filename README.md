@@ -19,7 +19,7 @@ userfetch
 ```
 
 
-### [Docs](https://github.com/aryan02420/userfetch/tree/main/docs "Docs")
+### [Docs](https://github.com/aryan02420/userfetch/wiki/Docs "Docs")
 
 ### Roadmap
 
@@ -27,5 +27,6 @@ userfetch
 - WakaTime API
 - Rust CLI
 - GitHub Action
+- TypeScript
 
 ### Contributing

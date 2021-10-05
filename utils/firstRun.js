@@ -10,7 +10,7 @@ with \`repo\`, \`read:org\`, and \`user\` scopes
 Then run \`userfetch --token\` and use stdin to enter the token
 
 Run \`userfetch --help\` to get a complete list of available options
-Check https://github.com/aryan02420/userfetch/tree/master/docs for more info
+Check https://github.com/aryan02420/userfetch/wiki/Docs for more info
 `
 
 export default async function () {
