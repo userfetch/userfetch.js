@@ -16,31 +16,32 @@ import getAndSaveToken from './utils/getAndSaveToken.js'
 import renderer from './renderer/terminal.js'
 
 
-
-const spinner = ora({spinner: 'line', color: 'gray'}).start()
+const spinner = ora({ spinner: 'line', color: 'gray' }).start()
 
 const args = yargs(process.argv)
-
 const configDir = path.join(os.homedir(), '.userfetch/')
-if (!fs.existsSync(configDir) || args.firstRun) {
-  spinner.stop()
-  await firstRun()
-  spinner.start()
+
+if (!args.ci) {
+  if (!fs.existsSync(configDir) || args.firstRun) {
+    spinner.stop()
+    await firstRun()
+    spinner.start()
+  }
+
+  if (args.token) {
+    spinner.stop()
+    await getAndSaveToken()
+    spinner.start()
+  }
+
+  dotenv.config()
+  dotenv.config({ path: path.join(configDir, '.env') })
 }
 
-if (args.token) {
-  spinner.stop()
-  await getAndSaveToken()
-  spinner.start()
-}
-
-dotenv.config()
-dotenv.config({ path: path.join(configDir, '.env') })
-
-let config
+let config = {}
 if (args.config) {
   config = await import(path.resolve(process.cwd(), args.config))
-} else {
+} else if (!args.ci) {
   config = await import(path.join(configDir, 'config.mjs'))
 }
 const template = args.user ? config.templateDefault : config.template
@@ -55,7 +56,6 @@ const output = renderer
     meta: config.meta,
   })
   .render(template, stats)
-
 
 spinner.stop()
 

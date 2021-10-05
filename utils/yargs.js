@@ -7,16 +7,21 @@ export default function (args) {
       alias: 'u',
       describe: 'Github username to fetch',
       type: 'string',
+      requiresArg: true,
     })
     .option('config', {
       alias: 'c',
       describe: 'Path to config.mjs file',
       type: 'string',
+      normalize: true,
+      requiresArg: true,
     })
     .option('svg', {
       alias: 's',
       describe: 'Path to save the generated SVG to',
       type: 'string',
+      normalize: true,
+      requiresArg: true,
     })
     .option('token', {
       alias: 't',
@@ -42,6 +47,16 @@ export default function (args) {
         'Trigger the firstrun script. WARNING: This will overwrite your config directory',
       type: 'boolean',
       default: false,
+    })
+    .option('ci', {
+      describe:
+        'continuous integration mode. Disables writing to and reading of config dir. Will require --config',
+      type: 'boolean',
+      default: false,
+    })
+    .check((argv, options) => {
+      if (argv.ci && !argv.config) throw new Error('--config is required with --ci')
+      return true
     })
     .help()
     .alias({

@@ -32,6 +32,11 @@
         <td>Asks for your GitHub PAT through stdin<br>The token must have <code>repo</code>, <code>read:org</code>, and <code>user</code> scopes</td>
     </tr>
     <tr>
+        <td><code>--ci</code></td>
+        <td><em>[boolean] [optional]</em></td>
+        <td>Continuous Integration mode<br>Disables writing to and reading of config dir<br>Requires <code>--config</code><br>Disables <code>--token</code> <code>--first-run</code></td>
+    </tr>
+    <tr>
         <td><code>--no-color</code> <code>--nocolor</code></td>
         <td><em>[boolean] [optional]</em></td>
         <td><blockquote>not yet implemented</blockquote>Disables colored output in terminal</td>
@@ -47,4 +52,3 @@
         <td>Show additional debugging output<br>You can use this to find all variables that can used in the config file</td>
     </tr>
 </table>
-
