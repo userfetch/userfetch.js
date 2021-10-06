@@ -6,7 +6,9 @@ This file contains all customizable options. It must export `template` and `temp
 
 
 
-#### template / templateDefault
+-----
+
+### template / templateDefault
 
 Use the `template` function to create a personal template for yourself. Use `templateDefault` to create a generic template for all users.
 
@@ -19,7 +21,7 @@ Available functions inside the template function (first argument)
 Draw the ascii art from file. The path is relative to this config file
 
 ```js
-ascii(imports.meta.url, "./path/to/ascii-art)
+ascii(imports.meta.url, "./path/to/ascii-art")
 ```
 
 
@@ -124,43 +126,59 @@ right()
 
 
 
-##### variables
+#### variables
 
-The second argument to the template function. To see the complete list run `userfetch -d`
+The second argument to the template function. To see the complete list run `userfetch -debug`
 
 `username`, `name`, `email`, `location`, `bio`, `status`, `followers`, `following`, `sponsors`, `sponsoring`, `gists`, `organizations`, `contributedTo`, `packages`, `projects`, `pullRequests`, `issues`, `starred`, `commits`, `repositories` ...
 
 
 
-#### colors
+-----
 
+### colors
+
+This is an optional export. It can have `primary`, `secondary`, `tertiary`, `alternate` keys. The possible color values are `"black"`, `"red"`, `"green"`, `"yellow"`, `"blue"`, `"magenta"`, `"cyan"`, `"white"`, `"blackBright"`, `"redBright"`, `"greenBright"`, `"yellowBright"`, `"blueBright"`, `"magentaBright"`, `"cyanBright"`, `"whiteBright"`
 ##### primary
+
+Used in titles and info key
+
 ##### secondary
+
+Used in text, list text, info value
+
 ##### tertiary
+
+Used to color symbols like bullets and underline
+
 ##### alternate
 
-#### symbols
+Used to color the ascii art
+
+
+
+-----
+
+### symbols
 
 ##### underline
 ##### infoSeparator
 ##### listMarker
 
-#### terminal
+
+
+-----
+
+### terminal
+
+This is an optional export. These color values will be used to colorize the SVG output.
+
+> not yet implemented
 
 ##### background
-##### black
-##### red
-##### green
-##### yellow
-##### blue
-##### magenta
-##### cyan
-##### white
-##### blackBright
-##### redBright
-##### greenBright
-##### yellowBright
-##### blueBright
-##### magentaBright
-##### cyanBright
-##### whiteBright
+
+background color of the terminal
+
+##### black / red / green / yellow / blue / magenta / cyan / white
+
+##### blackBright / redBright / greenBright / yellowBright / blueBright / magentaBright / cyanBright / whiteBright
