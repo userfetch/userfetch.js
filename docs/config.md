@@ -1,4 +1,4 @@
-### config.mjs
+## config.mjs
 
 This file contains all customizable options. It must export `template` and `templateDeafult` functions.
 
@@ -139,6 +139,7 @@ The second argument to the template function. To see the complete list run `user
 ### colors
 
 This is an optional export. It can have `primary`, `secondary`, `tertiary`, `alternate` keys. The possible color values are `"black"`, `"red"`, `"green"`, `"yellow"`, `"blue"`, `"magenta"`, `"cyan"`, `"white"`, `"blackBright"`, `"redBright"`, `"greenBright"`, `"yellowBright"`, `"blueBright"`, `"magentaBright"`, `"cyanBright"`, `"whiteBright"`
+
 ##### primary
 
 Used in titles and info key
