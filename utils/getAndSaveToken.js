@@ -1,10 +1,11 @@
-import os from 'os'
 import fs from 'fs'
 import path from 'path'
 
 import inquirer from 'inquirer'
 
-const envFile = path.join(os.homedir(), '.userfetch', '.env')
+import { CONFIG_DIR } from './constants.js'
+
+const envFile = path.join(CONFIG_DIR, '.env')
 
 async function saveToEnv({ github_token }) {
   if (!github_token) return

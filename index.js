@@ -15,34 +15,34 @@ import getAndSaveToken from './utils/getAndSaveToken.js'
 
 import renderer from './renderer/terminal.js'
 
+import { CONFIG_DIR, PROJ_ROOT, CWD } from './utils/constants.js'
 
 const spinner = ora({ spinner: 'line', color: 'gray' }).start()
 
 const args = yargs(process.argv)
-const configDir = path.join(os.homedir(), '.userfetch/')
 
 if (!args.ci) {
-  if (!fs.existsSync(configDir) || args.firstRun) {
+  if (!fs.existsSync(CONFIG_DIR) || args.firstRun) {
     spinner.stop()
     await firstRun()
     spinner.start()
   }
 
-  if (args.token) {
+  if (args.token & !args.firstRun) {
     spinner.stop()
     await getAndSaveToken()
     spinner.start()
   }
 
   dotenv.config()
-  dotenv.config({ path: path.join(configDir, '.env') })
+  dotenv.config({ path: path.join(CONFIG_DIR, '.env') })
 }
 
 let config = {}
 if (args.config) {
-  config = await import(path.resolve(process.cwd(), args.config))
+  config = await import(path.resolve(CWD, args.config))
 } else if (!args.ci) {
-  config = await import(path.join(configDir, 'config.mjs'))
+  config = await import(path.join(CONFIG_DIR, 'config.mjs'))
 }
 const template = args.user ? config.templateDefault : config.template
 
@@ -62,4 +62,4 @@ spinner.stop()
 console.log(output)
 console.log('')
 
-if (args.debug) console.log({ args, stats, config, configDir })
+if (args.debug) console.log({ args, stats, config, CONFIG_DIR, PROJ_ROOT })

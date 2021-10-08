@@ -1,5 +1,4 @@
 import fs from 'fs'
-import url from 'url'
 import path from 'path'
 
 import chalk from 'chalk'
@@ -9,6 +8,8 @@ import stripAnsi from 'strip-ansi'
 import columnify from 'columnify'
 
 import chalkTemplate from '../utils/chalkTemplate.js'
+
+import { DIR } from '../utils/constants.js'
 
 
 const Colors = {
@@ -49,7 +50,7 @@ export default {
   },
 
   ascii: function (configPath, filePath) {
-    const dirname = path.dirname(url.fileURLToPath(configPath))
+    const dirname = DIR(configPath)
     filePath = path.resolve(dirname, filePath)
     const ascii = fs.readFileSync(filePath)
     result[column] += color(Colors.alternate)(ascii.toString()) + '\n'

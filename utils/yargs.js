@@ -1,6 +1,8 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
+import { VERSION } from './constants.js'
+
 export default function (args) {
   return yargs(hideBin(args))
     .option('user', {
@@ -55,10 +57,12 @@ export default function (args) {
       default: false,
     })
     .check((argv, options) => {
-      if (argv.ci && !argv.config) throw new Error('--config is required with --ci')
+      if (argv.ci && !argv.config)
+        throw new Error('--config is required with --ci')
       return true
     })
     .help()
+    .version(VERSION)
     .alias({
       help: 'h',
       version: 'v',
