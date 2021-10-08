@@ -1,53 +1,37 @@
 #!/usr/bin/env node
 
-import os from 'os'
 import fs from 'fs'
 import path from 'path'
 
-import dotenv from 'dotenv'
-
 import ora from 'ora'
+import dotenv from 'dotenv'
 
 import yargs from './utils/yargs.js'
 import githubAPI from './apis/github.js'
 import firstRun from './utils/firstRun.js'
-import getAndSaveToken from './utils/getAndSaveToken.js'
-
 import renderer from './renderer/terminal.js'
-
+import getAndSaveToken from './utils/getAndSaveToken.js'
 import { CONFIG_DIR, PROJ_ROOT, CWD } from './utils/constants.js'
 
+const args = yargs(process.argv)
 const spinner = ora({ spinner: 'line', color: 'gray' }).start()
 
-const args = yargs(process.argv)
-
 if (!args.ci) {
-  if (!fs.existsSync(CONFIG_DIR) || args.firstRun) {
-    spinner.stop()
-    await firstRun()
-    spinner.start()
-  }
-
-  if (args.token & !args.firstRun) {
-    spinner.stop()
-    await getAndSaveToken()
-    spinner.start()
-  }
-
+  spinner.stop()
+  if (!fs.existsSync(CONFIG_DIR) || args.firstRun) await firstRun()
+  if (args.token && !args.firstRun) await getAndSaveToken()
+  spinner.start()
   dotenv.config()
   dotenv.config({ path: path.join(CONFIG_DIR, '.env') })
 }
 
 let config = {}
-if (args.config) {
-  config = await import(path.resolve(CWD, args.config))
-} else if (!args.ci) {
-  config = await import(path.join(CONFIG_DIR, 'config.mjs'))
-}
+if (args.config) config = await import(path.resolve(CWD, args.config))
+else if (!args.ci) config = await import(path.join(CONFIG_DIR, 'config.mjs'))
 const template = args.user ? config.templateDefault : config.template
 
 githubAPI.authenticate(process.env.github_token)
-const stats = await githubAPI.fetch(args.user)
+const githubStats = await githubAPI.fetch(args.user)
 
 const output = renderer
   .options({
@@ -55,11 +39,8 @@ const output = renderer
     symbols: config.symbols,
     meta: config.meta,
   })
-  .render(template, stats)
+  .render(template, githubStats)
 
 spinner.stop()
-
-console.log(output)
-console.log('')
-
+console.log(output, '\n')
 if (args.debug) console.log({ args, stats, config, CONFIG_DIR, PROJ_ROOT })

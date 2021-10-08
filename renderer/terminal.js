@@ -3,14 +3,11 @@ import path from 'path'
 
 import chalk from 'chalk'
 import wrapAnsi from 'wrap-ansi'
+import columnify from 'columnify'
 import stripAnsi from 'strip-ansi'
 
-import columnify from 'columnify'
-
-import chalkTemplate from '../utils/chalkTemplate.js'
-
 import { DIR } from '../utils/constants.js'
-
+import chalkTemplate from '../utils/chalkTemplate.js'
 
 const Colors = {
   primary: 'blueBright',

@@ -169,7 +169,7 @@ const userDataFragment = gql`
         stargazerCount
       }
     }
-    topRepositories(orderBy: {field: UPDATED_AT, direction: DESC}, first: 3) {
+    topRepositories(orderBy: { field: UPDATED_AT, direction: DESC }, first: 3) {
       nodes {
         nameWithOwner
       }
