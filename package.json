@@ -1,6 +1,6 @@
 {
   "name": "userfetch",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "super customizable, neofetch inspired tool to display github user stats",
   "main": "index.js",
   "type": "module",
