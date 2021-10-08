@@ -6,10 +6,10 @@ import inquirer from 'inquirer'
 
 const envFile = path.join(os.homedir(), '.userfetch', '.env')
 
-async function saveToEnv ({github_token}) {
+async function saveToEnv({ github_token }) {
   if (!github_token) return
-  const data = `github_token=${github_token}`
-  fs.promises.writeFile(envFile, data)
+  const data = `github_token=${github_token}\n`
+  await fs.promises.writeFile(envFile, data)
 }
 
 export default async function () {
@@ -21,5 +21,5 @@ export default async function () {
       message: 'GitHub PAT (skip)',
     },
   ])
-  await saveToEnv(github_token)
+  await saveToEnv({ github_token })
 }
