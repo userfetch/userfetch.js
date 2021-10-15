@@ -6,14 +6,14 @@ import path from 'path'
 import ora from 'ora'
 import dotenv from 'dotenv'
 
-import yargs from './utils/yargs.js'
-import githubAPI from './apis/github.js'
-import firstRun from './utils/firstRun.js'
-import renderer from './renderer/terminal.js'
-import getAndSaveToken from './utils/getAndSaveToken.js'
+import { parseArgs } from './utils/yargs.js'
+import * as githubAPI from './apis/github.js'
+import { firstRun } from './utils/firstRun.js'
+import { renderer } from './renderer/terminal.js'
+import { getAndSaveToken } from './utils/getAndSaveToken.js'
 import { CONFIG_DIR, PROJ_ROOT, CWD } from './utils/constants.js'
 
-const args = yargs(process.argv)
+const args = parseArgs(process.argv)
 const spinner = ora({ spinner: 'line', color: 'gray' }).start()
 
 if (!args.ci) {

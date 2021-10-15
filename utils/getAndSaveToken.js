@@ -13,7 +13,7 @@ async function saveToEnv({ github_token }) {
   await fs.promises.writeFile(envFile, data)
 }
 
-export default async function () {
+async function getAndSaveToken() {
   const { github_token } = await inquirer.prompt([
     {
       type: 'password',
@@ -24,3 +24,5 @@ export default async function () {
   ])
   await saveToEnv({ github_token })
 }
+
+export { getAndSaveToken }

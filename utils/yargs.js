@@ -3,7 +3,7 @@ import { hideBin } from 'yargs/helpers'
 
 import { VERSION } from './constants.js'
 
-export default function (args) {
+function parseArgs(args) {
   return yargs(hideBin(args))
     .option('user', {
       alias: 'u',
@@ -69,3 +69,5 @@ export default function (args) {
     })
     .parse()
 }
+
+export { parseArgs }

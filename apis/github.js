@@ -181,12 +181,12 @@ const headers = {
   authorization: '',
 }
 
-const authenticate = function (token) {
+function authenticate (token) {
   if (!token) throw new Error('Missing authentication token')
   headers.authorization = `token ${token}`
 }
 
-const getUser = async function (username) {
+async function getUser (username) {
   let query = ''
   let variables = {}
 
@@ -212,7 +212,7 @@ const getUser = async function (username) {
   }
 }
 
-const getUserStats = async function (username) {
+async function getUserStats(username) {
   const user = await getUser(username)
   const stats = {
     username: user.login,
@@ -252,4 +252,4 @@ const getUserStats = async function (username) {
   return stats
 }
 
-export default { authenticate, fetch: getUserStats }
+export { authenticate, getUserStats as fetch }

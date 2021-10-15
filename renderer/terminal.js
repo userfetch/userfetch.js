@@ -3,8 +3,8 @@ import wrapAnsi from 'wrap-ansi'
 import columnify from 'columnify'
 import stripAnsi from 'strip-ansi'
 
-import getASCII from '../utils/getASCII.js'
-import chalkTemplate from '../utils/chalkTemplate.js'
+import { getASCII } from '../utils/getASCII.js'
+import { chalkTemplate } from '../utils/chalkTemplate.js'
 
 const Colors = {
   primary: 'blueBright',
@@ -32,7 +32,7 @@ let result = {
   right: '',
 }
 
-export default {
+export const renderer = {
   left: function () {
     column = 'left'
     return this
