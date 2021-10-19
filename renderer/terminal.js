@@ -1,9 +1,10 @@
 import chalk from 'chalk'
 import wrapAnsi from 'wrap-ansi'
-import columnify from 'columnify'
 import stripAnsi from 'strip-ansi'
+import { table, getBorderCharacters } from 'table'
 
 import { getASCII } from '../utils/getASCII.js'
+import { EMPTY_CHAR } from '../utils/constants.js'
 import { chalkTemplate } from '../utils/chalkTemplate.js'
 
 const Colors = {
@@ -21,7 +22,10 @@ const Symbols = {
 }
 
 const Meta = {
-  maxWidth: 60,
+  paddingLeft: 0,
+  paddingTop: 0,
+  paddingBottom: 1,
+  maxWidth: 40,
 }
 
 const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
@@ -30,6 +34,8 @@ let column = 'left'
 let result = {
   left: '',
   right: '',
+  top: '',
+  bottom: '',
 }
 
 export const renderer = {
@@ -40,6 +46,16 @@ export const renderer = {
 
   right: function () {
     column = 'right'
+    return this
+  },
+
+  top: function () {
+    column = 'top'
+    return this
+  },
+
+  bottom: function () {
+    column = 'bottom'
     return this
   },
 
@@ -56,7 +72,7 @@ export const renderer = {
 
   underline: function () {
     const last = stripAnsi(result[column]).trim().split('\n').slice(-1)[0]
-    const uline = new Array(last.length).fill(Symbols.underline).join('')
+    const uline = Symbols.underline.repeat(last.length)
     result[column] += color(Colors.tertiary)(uline) + '\n'
     return this
   },
@@ -85,8 +101,7 @@ export const renderer = {
   },
 
   text: function (str) {
-    result[column] +=
-      wrapAnsi(color(Colors.secondary)(str), Meta.maxWidth) + '\n'
+    result[column] += color(Colors.secondary)(str) + '\n'
     return this
   },
 
@@ -96,7 +111,7 @@ export const renderer = {
   },
 
   raw: function (str) {
-    result[column] += wrapAnsi(chalkTemplate(str), Meta.maxWidth) + '\n'
+    result[column] += chalkTemplate(str) + '\n'
     return this
   },
 
@@ -110,27 +125,52 @@ export const renderer = {
   clear: function () {
     result.left = ''
     result.right = ''
+    result.top = ''
+    result.bottom = ''
     column = 'left'
     return this
   },
 
   output: function () {
-    let leftCol = result.left.replace(/\s+$/, '')
-    let rightCol = result.right.replace(/\s+$/, '')
-    let fullOutp = columnify(
-      [
+    let tableConfig = {
+      border: Object.assign(getBorderCharacters('void'), {
+        bodyJoin: Symbols.columnSeparator,
+      }),
+      columns: [
         {
-          left: leftCol,
-          right: rightCol,
+          paddingLeft: Meta.paddingLeft,
+          paddingRight: 0,
+        },
+        {
+          paddingLeft: 0,
+          paddingRight: 0,
         },
       ],
-      {
-        columnSplitter: Symbols.columnSeparator,
-        preserveNewLines: true,
-        showHeaders: false,
-      }
+    }
+    let header = table(
+      [[wrapAnsi(result.top, 2 * Meta.maxWidth)]],
+      tableConfig
     )
-    return fullOutp
+    let middle = table(
+      [
+        [
+          wrapAnsi(result.left, Meta.maxWidth),
+          wrapAnsi(result.right, Meta.maxWidth),
+        ],
+      ],
+      tableConfig
+    )
+    let footer = table(
+      [[wrapAnsi(result.bottom, 2 * Meta.maxWidth)]],
+      tableConfig
+    )
+    return [
+      '\n'.repeat(Meta.paddingTop),
+      result.top && (header.replace(/^ /, EMPTY_CHAR).trim() + '\n'),
+      middle.replace(/^ /, EMPTY_CHAR).trim(),
+      result.bottom && ('\n' + footer.replace(/^ /, EMPTY_CHAR).trim()),
+      '\n'.repeat(Meta.paddingBottom),
+    ].join('')
   },
 
   render: function (template, data) {

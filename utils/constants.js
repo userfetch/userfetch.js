@@ -10,6 +10,7 @@ export const NAME = pkg.name
 export const VERSION = pkg.version
 export const CONFIG_DIR = path.join(os.homedir(), '.userfetch/')
 export const CWD = process.cwd()
+export const EMPTY_CHAR = '⠀'
 
 /**
  * extract directory from fileURL
