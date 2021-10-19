@@ -42,5 +42,5 @@ const output = renderer
   .render(template, githubStats)
 
 spinner.stop()
-console.log(output, '\n')
-if (args.debug) console.log({ args, stats, config, CONFIG_DIR, PROJ_ROOT })
+console.log(output)
+if (args.debug) console.log({ args, githubStats, config, CONFIG_DIR, PROJ_ROOT })
