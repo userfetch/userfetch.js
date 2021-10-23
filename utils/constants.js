@@ -10,20 +10,22 @@ export const NAME = pkg.name
 export const VERSION = pkg.version
 export const CONFIG_DIR = path.join(os.homedir(), '.userfetch/')
 export const CWD = process.cwd()
-export const EMPTY_CHAR = '⠀'
+
+export const ZERO_WIDTH_SPACE = '\u200b'
+
+export const LINESTART_RE_GM = /^/gm
 
 /**
  * extract directory from fileURL
- * 
  * use to emulate __dirname in ES Modules
- * 
+ *
  * @example
  * ```
  * const __dirname = DIR(import.meta.url)
  * ```
- * 
+ *
  * @see {@link https://stackoverflow.com/a/69242626/11346540}
- * 
+ *
  * @param {string} fileUrl
  * @returns string
  */

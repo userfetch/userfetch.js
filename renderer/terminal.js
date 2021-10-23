@@ -4,7 +4,7 @@ import stripAnsi from 'strip-ansi'
 import { table, getBorderCharacters } from 'table'
 
 import { getASCII } from '../utils/getASCII.js'
-import { EMPTY_CHAR } from '../utils/constants.js'
+import { LINESTART_RE_GM, ZERO_WIDTH_SPACE } from '../utils/constants.js'
 import { chalkTemplate } from '../utils/chalkTemplate.js'
 
 const Colors = {
@@ -106,7 +106,7 @@ export const renderer = {
   },
 
   blank: function () {
-    result[column] += '\n'
+    result[column] += ZERO_WIDTH_SPACE + '\n'
     return this
   },
 
@@ -166,9 +166,9 @@ export const renderer = {
     )
     return [
       '\n'.repeat(Meta.paddingTop),
-      result.top && (header.replace(/^ /, EMPTY_CHAR).trim() + '\n'),
-      middle.replace(/^ /, EMPTY_CHAR).trim(),
-      result.bottom && ('\n' + footer.replace(/^ /, EMPTY_CHAR).trim()),
+      result.top && (header.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE) + '\n'),
+      middle.trimEnd(),
+      result.bottom && ('\n' + footer.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE)),
       '\n'.repeat(Meta.paddingBottom),
     ].join('')
   },
