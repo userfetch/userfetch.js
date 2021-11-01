@@ -6,6 +6,7 @@ import path from 'path'
 import ora from 'ora'
 import dotenv from 'dotenv'
 
+import { saveSVG } from './renderer/svg.js'
 import { parseArgs } from './utils/yargs.js'
 import * as githubAPI from './apis/github.js'
 import { firstRun } from './utils/firstRun.js'
@@ -43,4 +44,12 @@ const output = renderer
 
 spinner.stop()
 console.log(output)
-if (args.debug) console.log({ args, githubStats, config, CONFIG_DIR, PROJ_ROOT })
+
+spinner.start()
+if (args.svg) {
+  await saveSVG(output, config.terminal, args.svg)
+}
+spinner.stop()
+
+if (args.debug)
+  console.log({ args, githubStats, config, CONFIG_DIR, PROJ_ROOT })
