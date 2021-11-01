@@ -9,7 +9,9 @@ import { CONFIG_DIR, PROJ_ROOT } from './constants.js'
 const message = chalk`To use this tool, you must first create a Github Personal Access Token
 Go to >> {bgBlack.white.bold https://github.com/settings/tokens/new?scopes=repo,read:org,read:user,user:email} <<
 and generate a new token with \`repo, \`read:org\`, \`read:user\`, \`user:email\` scopes
-Check https://github.com/userfetch/userfetch.js/wiki/Docs for more info
+
+Docs: https://github.com/userfetch/userfetch.js/wiki/Docs
+Config dir: ${CONFIG_DIR}
 `
 
 async function firstRun() {
