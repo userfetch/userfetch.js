@@ -5,58 +5,80 @@ import Anser from 'anser'
 
 import { CWD } from '../utils/constants.js'
 
-const Colors = {}
+const SVGOptions = {}
 
 function getStyles() {
+  const {colors, size, padding, radius} = SVGOptions
   return `
   .ansi-black-fg {
-    color: ${Colors.black};
+    color: ${colors.black};
   }
   .ansi-red-fg {
-    color: ${Colors.red};
+    color: ${colors.red};
   }
   .ansi-green-fg {
-    color: ${Colors.green};
+    color: ${colors.green};
   }
   .ansi-yellow-fg {
-    color: ${Colors.yellow};
+    color: ${colors.yellow};
   }
   .ansi-blue-fg {
-    color: ${Colors.blue};
+    color: ${colors.blue};
   }
   .ansi-magenta-fg {
-    color: ${Colors.magenta};
+    color: ${colors.magenta};
   }
   .ansi-cyan-fg {
-    color: ${Colors.cyan};
+    color: ${colors.cyan};
   }
   .ansi-white-fg {
-    color: ${Colors.white};
+    color: ${colors.white};
   }
   .ansi-bright-black-fg {
-    color: ${Colors.blackBright};
+    color: ${colors.blackBright};
   }
   .ansi-bright-red-fg {
-    color: ${Colors.redBright};
+    color: ${colors.redBright};
   }
   .ansi-bright-green-fg {
-    color: ${Colors.greenBright};
+    color: ${colors.greenBright};
   }
   .ansi-bright-yellow-fg {
-    color: ${Colors.yellowBright};
+    color: ${colors.yellowBright};
   }
   .ansi-bright-blue-fg {
-    color: ${Colors.blueBright};
+    color: ${colors.blueBright};
   }
   .ansi-bright-magenta-fg {
-    color: ${Colors.magentaBright};
+    color: ${colors.magentaBright};
   }
   .ansi-bright-cyan-fg {
-    color: ${Colors.cyanBright};
+    color: ${colors.cyanBright};
   }
   .ansi-bright-white-fg {
-    color: ${Colors.whiteBright};
-  } 
+    color: ${colors.whiteBright};
+  }
+  #window {
+    width: calc(${size.cols}ch + ${2 * padding.x}px);
+    height: calc(${size.rows * 19.72}px + ${2 * padding.y}px);
+  }
+  #terminal {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    margin: 0;
+    padding: ${padding.y}px ${padding.x}px;
+    border-radius: ${radius}px;
+    background-color: ${colors.backgroundColor};
+    color: ${colors.foregroundColor};
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    font-size: 13.6px;
+    line-height: 19.72px;
+    text-size-adjust: 100%;
+    white-space: pre;
+    -webkit-locale: 'en';
+  }
   `
 }
 
@@ -64,9 +86,9 @@ function getSVGString(svgdata) {
   // template from: https://github.com/SNDST00M/SNDST00M
   return `
   <svg xmlns="http://www.w3.org/2000/svg">
-    <foreignObject x="0" y="0" width="100%" height="100%">
+    <foreignObject x="0" y="0" id="window">
       <style>${getStyles()}</style>
-      <pre xmlns="http://www.w3.org/1999/xhtml" style="width: auto;display: inline-block;background-color: ${Colors.backgroundColor};border-radius: 6px;box-sizing: border-box;color: ${Colors.foregroundColor};font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;font-size: 13.6px;line-height: 19.72px;margin: 0;padding: 15px 20px;text-size-adjust: 100%;white-space: pre;-webkit-locale: 'en';">${svgdata}</pre>
+      <pre xmlns="http://www.w3.org/1999/xhtml" id="terminal">${svgdata}</pre>
     </foreignObject>
   </svg>
   `
@@ -81,8 +103,8 @@ function getSVGPath(svgpath) {
 }
 
 export const renderer = {
-  options: function ({ colors = {} }) {
-    Object.assign(Colors, colors)
+  options: function (options) {
+    Object.assign(SVGOptions, options)
     return this
   },
   render: function (ansistr) {

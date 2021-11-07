@@ -47,7 +47,7 @@ console.log(output)
 
 spinner.start()
 if (args.svg) {
-  let svg = SVGRenderer.options({ colors: config.terminal }).render(output)
+  let svg = SVGRenderer.options(config.svgOptions).render(output)
   await SVGRenderer.save(svg, args.svg)
 }
 spinner.stop()
