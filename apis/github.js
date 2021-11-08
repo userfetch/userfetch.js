@@ -169,6 +169,11 @@ const userDataFragment = gql`
         stargazerCount
       }
     }
+    stars: repositories(first: 100, privacy: PUBLIC, orderBy: {field: STARGAZERS, direction: DESC}) {
+      nodes {
+        stargazerCount
+      }
+    }
     topRepositories(orderBy: { field: UPDATED_AT, direction: DESC }, first: 3) {
       nodes {
         nameWithOwner
@@ -247,6 +252,7 @@ async function getUserStats(username) {
     recentStarred: user.starredRepositories.recent.map(x => x.nameWithOwner),
     commits: user.contributionsCollection.totalCommitContributions,
     repositories: user.repositories.totalCount,
+    stars: user.stars.nodes.reduce((acc, val) => { return acc + val.stargazerCount }, 0),
     topRepositories: user.topRepositories.nodes.map(x => x.nameWithOwner),
   }
   return stats
