@@ -8,7 +8,7 @@ import { CWD } from '../utils/constants.js'
 const SVGOptions = {}
 
 function getStyles() {
-  const {colors, size, padding, radius} = SVGOptions
+  const {colors, ...rest} = SVGOptions
   return `
   .ansi-black-fg {
     color: ${colors.black};
@@ -59,8 +59,8 @@ function getStyles() {
     color: ${colors.whiteBright};
   }
   #window {
-    width: calc(${size.cols}ch + ${2 * padding.x}px);
-    height: calc(${size.rows * 19.72}px + ${2 * padding.y}px);
+    width: calc(${rest.cols}ch + ${2 * rest.paddingX}px);
+    height: calc(${rest.rows * 19.72}px + ${2 * rest.paddingY}px);
   }
   #terminal {
     box-sizing: border-box;
@@ -68,8 +68,8 @@ function getStyles() {
     height: 100%;
     display: inline-block;
     margin: 0;
-    padding: ${padding.y}px ${padding.x}px;
-    border-radius: ${radius}px;
+    padding: ${rest.paddingY}px ${rest.paddingX}px;
+    border-radius: ${rest.radius}px;
     background-color: ${colors.backgroundColor};
     color: ${colors.foregroundColor};
     font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;

@@ -64,13 +64,9 @@ export const svgOptions = {
     cyanBright: '#b1c6ca',
     whiteBright: '#f9f9f4',
   },
-  size: {
-    rows: 16,
-    cols: 80,
-  },
-  padding: {
-    x: 20,
-    y: 15,
-  },
+  rows: 16,
+  cols: 80,
+  paddingX: 20,
+  paddingY: 15,
   radius: 6,
 }
