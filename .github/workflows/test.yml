@@ -1,16 +1,14 @@
-name: update_readme
+name: test
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
-  build:
+  dry_run:
     env:
       github_token: ${{ secrets.GH_PAT }}
     runs-on: ubuntu-latest
@@ -25,10 +23,3 @@ jobs:
 
       - name: run script
         run: node index.js --ci -c stubs/config.mjs -s output.svg
-
-      - name: push to github
-        run: | 
-          git config --local user.name 'github-actions[bot]'
-          git config --local user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit -am 'Daily Update' || true
-          git push origin main
