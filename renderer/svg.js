@@ -57,6 +57,9 @@ function getStyles() {
   .ansi-bright-white-fg {
     color: ${colors.whiteBright};
   }
+  .ansi-bold {
+    font-weight: bold;
+  }
   #window {
     width: calc(${rest.cols}ch + ${2 * rest.paddingX}px);
     height: calc(${rest.rows * 19.72}px + ${2 * rest.paddingY}px - ${19.72-13.6}px);
