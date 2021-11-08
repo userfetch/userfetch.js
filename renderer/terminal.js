@@ -4,29 +4,9 @@ import stripAnsi from 'strip-ansi'
 import { table, getBorderCharacters } from 'table'
 
 import { getASCII } from '../utils/getASCII.js'
-import { LINESTART_RE_GM, ZERO_WIDTH_SPACE } from '../utils/constants.js'
 import { chalkTemplate } from '../utils/chalkTemplate.js'
-
-const Colors = {
-  primary: 'blueBright',
-  secondary: 'white',
-  tertiary: 'gray',
-  alternate: 'whiteBright',
-}
-
-const Symbols = {
-  underline: '-',
-  infoSeparator: ':',
-  listMarker: '-',
-  columnSeparator: '   ',
-}
-
-const Meta = {
-  paddingLeft: 0,
-  paddingTop: 0,
-  paddingBottom: 1,
-  maxWidth: 40,
-}
+import { LINESTART_RE_GM, ZERO_WIDTH_SPACE } from '../utils/constants.js'
+import { colors as Colors, symbols as Symbols, meta as Meta } from '../stubs/config.mjs'
 
 const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
 

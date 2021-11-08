@@ -4,11 +4,10 @@ import path from 'path'
 import Anser from 'anser'
 
 import { CWD } from '../utils/constants.js'
-
-const SVGOptions = {}
+import { svgOptions } from '../stubs/config.mjs'
 
 function getStyles() {
-  const {colors, ...rest} = SVGOptions
+  const {colors, ...rest} = svgOptions
   return `
   .ansi-black-fg {
     color: ${colors.black};
@@ -104,7 +103,7 @@ function getSVGPath(svgpath) {
 
 export const renderer = {
   options: function (options) {
-    Object.assign(SVGOptions, options)
+    Object.assign(svgOptions, options)
     return this
   },
   render: function (ansistr) {
