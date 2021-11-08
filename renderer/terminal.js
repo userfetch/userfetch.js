@@ -93,6 +93,7 @@ export const renderer = {
       '\n'
     values.forEach((value) => {
       result[column] +=
+        ZERO_WIDTH_SPACE +
         color(Colors.tertiary)('  ' + Symbols.listMarker + ' ') +
         color(Colors.secondary)(value) +
         '\n'
