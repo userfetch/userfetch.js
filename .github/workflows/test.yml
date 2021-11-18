@@ -22,4 +22,6 @@ jobs:
         run: npm ci
 
       - name: run script
-        run: node index.js --ci -c stubs/config.mjs -s output.svg
+        run: | 
+          npm run build
+          node dist/bin/cli.js --ci -c stubs/config.mjs -s output.svg
