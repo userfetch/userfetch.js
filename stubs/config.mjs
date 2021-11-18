@@ -69,4 +69,6 @@ export const svgOptions = {
   paddingX: 20,
   paddingY: 15,
   radius: 6,
+  fontSize: 13.6,
+  lineHeight: 19.72,
 }

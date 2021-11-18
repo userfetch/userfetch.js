@@ -7,7 +7,7 @@ import { CWD } from '../utils/constants.js'
 import { svgOptions } from '../../stubs/config.mjs'
 
 function getStyles() {
-  const {colors, ...rest} = svgOptions
+  const { colors, ...rest } = svgOptions
   return `
   .ansi-black-fg {
     color: ${colors.black};
@@ -61,8 +61,22 @@ function getStyles() {
     font-weight: bold;
   }
   #window {
-    width: calc(${rest.cols}ch + ${2 * rest.paddingX}px);
-    height: calc(${rest.rows * 19.72}px + ${2 * rest.paddingY}px - ${19.72-13.6}px);
+    --font-size: ${rest.fontSize}px;
+    --line-height: ${rest.lineHeight}px;
+    --term-rows: ${rest.rows};
+    --term-cols: ${rest.cols};
+    --term-px: ${rest.paddingX};
+    --term-py: ${rest.paddingY};
+    --term-rad: ${rest.radius};
+    --color-bg: ${colors.backgroundColor};
+    --color-fg: ${colors.foregroundColor};
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    font-family: monospace;
+    text-size-adjust: 100%;
+    color: var(--color-fg);
+    width: calc((var(--term-cols) * 0.5em) + (var(--term-px) * 2px));
+    height: calc((var(--term-rows) * var(--line-height)) + (var(--term-py) * 2px) - (var(--line-height) - var(--font-size)));
   }
   #terminal {
     box-sizing: border-box;
@@ -70,30 +84,33 @@ function getStyles() {
     height: 100%;
     display: inline-block;
     margin: 0;
-    padding: ${rest.paddingY}px ${rest.paddingX}px;
-    border-radius: ${rest.radius}px;
-    background-color: ${colors.backgroundColor};
-    color: ${colors.foregroundColor};
-    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-    font-size: 13.6px;
-    line-height: 19.72px;
-    text-size-adjust: 100%;
+    padding: calc(var(--term-py) * 1px) calc(var(--term-px) * 1px);
+    border-radius: calc(var(--term-rad) * 1px);
+    background-color: var(--color-bg);
     white-space: pre;
     -webkit-locale: 'en';
   }
   `
 }
 
+function getViewBox() {
+  const width =
+    svgOptions.cols * svgOptions.fontSize * 0.5 + 2 * svgOptions.paddingX
+  const height =
+    svgOptions.rows * svgOptions.lineHeight +
+    2 * svgOptions.paddingY -
+    svgOptions.lineHeight +
+    svgOptions.fontSize
+  return `0 0 ${width} ${height}`
+}
+
 function getSVGString(svgdata) {
-  // template from: https://github.com/SNDST00M/SNDST00M
-  return `
-  <svg xmlns="http://www.w3.org/2000/svg">
-    <foreignObject x="0" y="0" id="window">
-      <style>${getStyles()}</style>
-      <pre xmlns="http://www.w3.org/1999/xhtml" id="terminal">${svgdata}</pre>
-    </foreignObject>
-  </svg>
-  `
+  return `<svg xmlns="http://www.w3.org/2000/svg" cviewBox="${getViewBox()}">
+  <foreignObject x="0" y="0" id="window">
+    <style>${getStyles()}</style>
+    <pre xmlns="http://www.w3.org/1999/xhtml" id="terminal">${svgdata}</pre>
+  </foreignObject>
+</svg>`
 }
 
 function getSVGPath(svgpath) {
