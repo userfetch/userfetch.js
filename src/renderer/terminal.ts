@@ -6,7 +6,7 @@ import { table, getBorderCharacters } from 'table'
 import { getASCII } from '../utils/getASCII.js'
 import { chalkTemplate } from '../utils/chalkTemplate.js'
 import { LINESTART_RE_GM, ZERO_WIDTH_SPACE } from '../utils/constants.js'
-import { colors as Colors, symbols as Symbols, meta as Meta } from '../stubs/config.mjs'
+import { colors as Colors, symbols as Symbols, meta as Meta } from '../../stubs/config.mjs'
 
 const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
 

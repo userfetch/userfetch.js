@@ -193,7 +193,9 @@ function authenticate (token) {
 
 async function getUser (username) {
   let query = ''
-  let variables = {}
+  let variables = {
+    login: ''
+  }
 
   if (!!username) {
     query = queryOther + userDataFragment

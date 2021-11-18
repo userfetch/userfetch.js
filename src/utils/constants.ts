@@ -1,34 +1,18 @@
 import os from 'os'
-import url from 'url'
 import path from 'path'
 import module from 'module'
+import url from 'url';
 
-const require = module.createRequire(import.meta.url)
-const pkg = require('../package.json')
+const req = module.createRequire(import.meta.url)
+const pack = req('../../package.json')
 
-export const NAME = pkg.name
-export const VERSION = pkg.version
-export const CONFIG_DIR = path.join(os.homedir(), '.userfetch/')
+export const __DIR = (fileurl) => path.dirname(url.fileURLToPath(fileurl))
+
+export const NAME = pack.name
 export const CWD = process.cwd()
-
-export const ZERO_WIDTH_SPACE = '\u200b'
+export const VERSION = pack.version
+export const PROJ_ROOT = path.resolve(__DIR(import.meta.url), '../../')
+export const CONFIG_DIR = path.join(os.homedir(), '.userfetch/')
 
 export const LINESTART_RE_GM = /^/gm
-
-/**
- * extract directory from fileURL
- * use to emulate __dirname in ES Modules
- *
- * @example
- * ```
- * const __dirname = DIR(import.meta.url)
- * ```
- *
- * @see {@link https://stackoverflow.com/a/69242626/11346540}
- *
- * @param {string} fileUrl
- * @returns string
- */
-export const DIR = (fileUrl) => path.dirname(url.fileURLToPath(fileUrl))
-
-export const PROJ_ROOT = path.resolve(DIR(import.meta.url), '../')
+export const ZERO_WIDTH_SPACE = '\u200b'

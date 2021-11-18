@@ -7,7 +7,8 @@ import chalk from 'chalk'
  * @returns {string}
  */
 function chalkTemplate(templateString) {
-  const template = [templateString]
+  // FIXME: replace any
+  const template: any = [templateString]
   template.raw = [...template]
   return chalk(template)
 }

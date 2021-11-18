@@ -12,25 +12,26 @@ import { firstRun } from '../utils/firstRun.js'
 import { getAndSaveToken } from '../utils/getAndSaveToken.js'
 import { CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
 
-const args = parseArgs(process.argv)
-const spinner = ora({ spinner: 'line', color: 'gray' }).start()
+;(async () => {
+  const args = await parseArgs(process.argv)
+  const spinner = ora({ spinner: 'line', color: 'gray' }).start()
 
-if (!args.ci) {
+  if (!args.ci) {
+    spinner.stop()
+    if (!fs.existsSync(CONFIG_DIR) || args.firstRun) await firstRun()
+    if (args.token && !args.firstRun) await getAndSaveToken()
+    spinner.start()
+    dotenv.config()
+    dotenv.config({ path: path.join(CONFIG_DIR, '.env') })
+  }
+
+  let config = {}
+  if (args.config) config = await import(path.resolve(CWD, args.config))
+  else if (!args.ci) config = await import(path.join(CONFIG_DIR, 'config.mjs'))
+
+  let output = await main(args, process.env, config)
   spinner.stop()
-  if (!fs.existsSync(CONFIG_DIR) || args.firstRun) await firstRun()
-  if (args.token && !args.firstRun) await getAndSaveToken()
-  spinner.start()
-  dotenv.config()
-  dotenv.config({ path: path.join(CONFIG_DIR, '.env') })
-}
+  console.log(output)
 
-let config = {}
-if (args.config) config = await import(path.resolve(CWD, args.config))
-else if (!args.ci) config = await import(path.join(CONFIG_DIR, 'config.mjs'))
-
-let output = await main(args, process.env, config)
-spinner.stop()
-console.log(output)
-
-if (args.debug)
-  console.log({ args, githubStats, config, CONFIG_DIR, PROJ_ROOT })
+  if (args.debug) console.log({ args, config, CONFIG_DIR, PROJ_ROOT })
+})()

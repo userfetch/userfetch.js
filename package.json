@@ -13,7 +13,8 @@
     "utils/**/*"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "node dist/bin/cli.js"
   },
   "repository": {
     "type": "git",

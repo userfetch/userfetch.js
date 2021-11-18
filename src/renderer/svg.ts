@@ -4,7 +4,7 @@ import path from 'path'
 import Anser from 'anser'
 
 import { CWD } from '../utils/constants.js'
-import { svgOptions } from '../stubs/config.mjs'
+import { svgOptions } from '../../stubs/config.mjs'
 
 function getStyles() {
   const {colors, ...rest} = svgOptions
