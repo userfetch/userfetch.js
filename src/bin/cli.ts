@@ -29,9 +29,10 @@ import { CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
   if (args.config) config = await import(path.resolve(CWD, args.config))
   else if (!args.ci) config = await import(path.join(CONFIG_DIR, 'config.mjs'))
 
-  let output = await main(args, process.env, config)
+  let { output, debugInfo } = await main(args, process.env, config)
   spinner.stop()
   console.log(output)
 
-  if (args.debug) console.log({ args, config, CONFIG_DIR, PROJ_ROOT })
+  if (args.debug)
+    console.log({ args, config, ...debugInfo, CONFIG_DIR, PROJ_ROOT })
 })()

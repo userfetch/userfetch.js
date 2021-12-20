@@ -4,10 +4,10 @@ import { renderer as SVGRenderer } from './renderer/svg.js'
 
 export async function main(args, env, config) {
   const template = args.user ? config.templateDefault : config.template
-  
+
   githubAPI.authenticate(env.github_token)
   const githubStats = await githubAPI.fetch(args.user)
-  
+
   const output = renderer
     .options({
       colors: config.colors,
@@ -15,11 +15,16 @@ export async function main(args, env, config) {
       meta: config.meta,
     })
     .render(template, githubStats)
-  
+
   if (args.svg) {
     let svg = SVGRenderer.options(config.svgOptions).render(output)
     await SVGRenderer.save(svg, args.svg)
   }
-  
-  return output
+
+  return {
+    output, 
+    debugInfo: {
+      githubStats
+    }
+  }
 }

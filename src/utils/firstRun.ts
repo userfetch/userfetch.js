@@ -7,10 +7,10 @@ import { getAndSaveToken } from './getAndSaveToken.js'
 import { CONFIG_DIR, PROJ_ROOT } from './constants.js'
 
 const message = chalk`To use this tool, you must first create a Github Personal Access Token
-Go to >> {bgBlack.white.bold https://github.com/settings/tokens/new?scopes=repo,read:org,read:user,user:email} <<
-and generate a new token with \`repo, \`read:org\`, \`read:user\`, \`user:email\` scopes
+Go to >> {bgBlack.white.bold https://github.com/settings/tokens/new?scopes=repo,read:packages,read:org,read:user,user:email} <<
+and generate a new token with \`repo\`, \`read:packages\`, \`read:org\`, \`read:user\`, \`user:email\` scopes
 
-Docs: https://github.com/userfetch/userfetch.js/wiki/Docs
+Docs: https://userfetch.js.org/docs
 Config dir: ${CONFIG_DIR}
 `
 
