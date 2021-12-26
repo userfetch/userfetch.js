@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "node dist/bin/cli.js"
+    "test": "node dist/bin/cli.js --ci -c stubs/config.mjs -s temp/out.svg"
   },
   "repository": {
     "type": "git",
