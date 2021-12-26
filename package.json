@@ -4,13 +4,10 @@
   "description": "super customizable, neofetch inspired tool to display github user stats",
   "main": "index.js",
   "type": "module",
-  "bin": "./bin/cli.js",
+  "bin": "./dist/bin/cli.js",
   "files": [
-    "apis/**/*",
-    "bin/**/*",
-    "renderer/**/*",
-    "stubs/**/*",
-    "utils/**/*"
+    "dist/**/*",
+    "stubs/**/*"
   ],
   "scripts": {
     "build": "tsc",
