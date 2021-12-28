@@ -6,7 +6,7 @@
 
 <p align="center">
 
-![build] ![downloads] ![stars] [![docs]](https://userfetch.js.org/docs/) ![language] ![license] ![version] ![actions]
+[![build]](https://github.com/userfetch/userfetch.js/actions/workflows/test.yml) [![downloads]](https://www.npmjs.com/package/userfetch) [![stars]](https://github.com/userfetch/userfetch.js/stargazers) [![docs]](https://userfetch.js.org/docs/) ![language] [![license]](https://github.com/userfetch/userfetch.js/blob/main/LICENSE.md) ![version] [![actions]](https://github.com/userfetch/userfetch-action)
 
 </p>
 
