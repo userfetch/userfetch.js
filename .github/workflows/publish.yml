@@ -58,6 +58,7 @@ jobs:
         with:
           node-version: 16
           registry-url: 'https://npm.pkg.github.com'
+          scope: '@userfetch'
       - name: download build files
         uses: actions/download-artifact@v2
         with:
