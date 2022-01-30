@@ -9,6 +9,7 @@ import dotenv from 'dotenv'
 import { main } from '../index.js'
 import { parseArgs } from '../utils/yargs.js'
 import { firstRun } from '../utils/firstRun.js'
+import { renderer as SVGRenderer } from '../renderer/svg.js'
 import { getAndSaveToken } from '../utils/getAndSaveToken.js'
 import { VERSION, CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
 
@@ -31,7 +32,11 @@ import { VERSION, CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
 
   let { output, debugInfo } = await main(args, process.env, config)
   spinner.stop()
-  console.log(output)
+  console.log(output.text)
+
+  spinner.start()
+  if (args.svg) await SVGRenderer.save(output.svg, args.svg)
+  spinner.stop()
 
   if (args.debug)
     console.log({ VERSION, args, config, ...debugInfo, CONFIG_DIR, PROJ_ROOT })
