@@ -10,7 +10,7 @@ import { main } from '../index.js'
 import { parseArgs } from '../utils/yargs.js'
 import { firstRun } from '../utils/firstRun.js'
 import { getAndSaveToken } from '../utils/getAndSaveToken.js'
-import { CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
+import { VERSION, CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
 
 ;(async () => {
   const args = await parseArgs(process.argv)
@@ -34,5 +34,5 @@ import { CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
   console.log(output)
 
   if (args.debug)
-    console.log({ args, config, ...debugInfo, CONFIG_DIR, PROJ_ROOT })
+    console.log({ VERSION, args, config, ...debugInfo, CONFIG_DIR, PROJ_ROOT })
 })()
