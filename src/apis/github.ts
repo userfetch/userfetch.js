@@ -186,12 +186,12 @@ const headers = {
   authorization: '',
 }
 
-function authenticate (token) {
+function authenticate (token: string) {
   if (!token) throw new Error('Missing authentication token')
   headers.authorization = `token ${token}`
 }
 
-async function getUser (username) {
+async function getUser (username: string) {
   let query = ''
   let variables = {
     login: ''
@@ -219,7 +219,8 @@ async function getUser (username) {
   }
 }
 
-async function getUserStats(username) {
+//
+async function getUserStats(username: string) {
   const user = await getUser(username)
   const stats = {
     username: user.login,
@@ -229,33 +230,33 @@ async function getUserStats(username) {
     bio: user.bio || '',
     status: user.status?.message || '',
     followers: user.followers.totalCount,
-    recentFollowers: user.followers.recent.map(x => x.login),
+    recentFollowers: user.followers.recent.map((x: any) => x.login),
     following: user.following.totalCount,
-    recentFollowing: user.following.recent.map(x => x.login),
+    recentFollowing: user.following.recent.map((x: any) => x.login),
     sponsors: user.sponsors.totalCount,
-    recentSponsors: user.sponsors.recent.map(x => x.login),
+    recentSponsors: user.sponsors.recent.map((x: any) => x.login),
     sponsoring: user.sponsoring.totalCount,
-    recentSponsoring: user.sponsoring.recent.map(x => x.login),
+    recentSponsoring: user.sponsoring.recent.map((x: any) => x.login),
     gists: user.gists.totalCount,
-    recentGists: user.gists.recent.map(x => x.name),
+    recentGists: user.gists.recent.map((x: any) => x.name),
     organizations: user.organizations.totalCount,
-    recentOrganizations: user.organizations.recent.map(x => x.login),
+    recentOrganizations: user.organizations.recent.map((x: any) => x.login),
     contributedTo: user.repositoriesContributedTo.totalCount,
-    recentContributedTo: user.repositoriesContributedTo.recent.map(x => x.nameWithOwner),
+    recentContributedTo: user.repositoriesContributedTo.recent.map((x: any) => x.nameWithOwner),
     packages: user.packages.totalCount,
-    recentPackages: user.packages.recent.map(x => `${x.packageType}:${x.name}@${x.versions.nodes[0].version}`),
+    recentPackages: user.packages.recent.map((x: any) => `${x.packageType}:${x.name}@${x.versions.nodes[0].version}`),
     projects: user.projects.totalCount,
-    recentProjects: user.projects.recent.map(x => x.name),
+    recentProjects: user.projects.recent.map((x: any) => x.name),
     pullRequests: user.pullRequests.totalCount,
-    recentPullRequests: user.pullRequests.recent.map(x => `#${x.number} ${x.repository.nameWithOwner}`),
+    recentPullRequests: user.pullRequests.recent.map((x: any) => `#${x.number} ${x.repository.nameWithOwner}`),
     issues: user.issues.totalCount,
-    recentIssues: user.issues.recent.map(x => `#${x.number} ${x.repository.nameWithOwner}`),
+    recentIssues: user.issues.recent.map((x: any) => `#${x.number} ${x.repository.nameWithOwner}`),
     starred: user.starredRepositories.totalCount,
-    recentStarred: user.starredRepositories.recent.map(x => x.nameWithOwner),
+    recentStarred: user.starredRepositories.recent.map((x: any) => x.nameWithOwner),
     commits: user.contributionsCollection.totalCommitContributions,
     repositories: user.repositories.totalCount,
-    stars: user.stars.nodes.reduce((acc, val) => { return acc + val.stargazerCount }, 0),
-    topRepositories: user.topRepositories.nodes.map(x => x.nameWithOwner),
+    stars: user.stars.nodes.reduce((acc: number, val: any) => { return acc + val.stargazerCount }, 0),
+    topRepositories: user.topRepositories.nodes.map((x: any) => x.nameWithOwner),
   }
   return stats
 }

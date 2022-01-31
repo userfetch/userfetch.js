@@ -104,7 +104,7 @@ function getViewBox() {
   return `0 0 ${width} ${height}`
 }
 
-function getSVGString(svgdata) {
+function getSVGString(svgdata: string) {
   return `<svg xmlns="http://www.w3.org/2000/svg" cviewBox="${getViewBox()}">
   <foreignObject x="0" y="0" id="window">
     <style>${getStyles()}</style>
@@ -113,7 +113,7 @@ function getSVGString(svgdata) {
 </svg>`
 }
 
-function getSVGPath(svgpath) {
+function getSVGPath(svgpath: string) {
   svgpath = path.resolve(CWD, svgpath)
   if (!svgpath.endsWith('.svg')) svgpath = path.resolve(svgpath, 'output.svg')
   let svgdir = path.dirname(svgpath)
@@ -126,12 +126,12 @@ export const renderer = {
     Object.assign(svgOptions, options)
     return this
   },
-  render: function (ansistr) {
+  render: function (ansistr: string) {
     let svgdata = Anser.ansiToHtml(ansistr, { use_classes: true })
     let svgstring = getSVGString(svgdata)
     return svgstring
   },
-  save: async function (svggstr, svgpath) {
+  save: async function (svggstr: string, svgpath: string) {
     svgpath = getSVGPath(svgpath)
     await fs.promises.writeFile(svgpath, svggstr)
   },

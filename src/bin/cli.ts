@@ -23,6 +23,7 @@ import { VERSION, CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
     if (args.token && !args.firstRun) await getAndSaveToken()
     spinner.start()
     dotenv.config()
+    dotenv.config({ path: path.join(CWD, '.env') })
     dotenv.config({ path: path.join(CONFIG_DIR, '.env') })
   }
 
