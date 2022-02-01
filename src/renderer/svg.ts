@@ -109,7 +109,7 @@ function getViewBox() {
 }
 
 function getSVGString(svgdata: string) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" cviewBox="${getViewBox()}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${getViewBox()}">
   <foreignObject x="0" y="0" id="window">
     <style>${getStyles()}</style>
     <pre xmlns="http://www.w3.org/1999/xhtml" id="terminal">${svgdata}</pre>
