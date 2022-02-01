@@ -13,6 +13,8 @@ import { renderer as SVGRenderer } from '../renderer/svg.js'
 import { getAndSaveToken } from '../utils/getAndSaveToken.js'
 import { VERSION, CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
 
+import type { IConfigPartial } from '../config.js'
+
 ;(async () => {
   const args = await parseArgs(process.argv)
   const spinner = ora({ spinner: 'line', color: 'gray' }).start()
@@ -31,7 +33,7 @@ import { VERSION, CONFIG_DIR, PROJ_ROOT, CWD } from '../utils/constants.js'
   if (args.config) config = await import(path.resolve(CWD, args.config))
   else if (!args.ci) config = await import(path.join(CONFIG_DIR, 'config.mjs'))
 
-  let { output, debugInfo } = await main(args, process.env, config)
+  let { output, debugInfo } = await main(args, process.env, config as IConfigPartial)
   spinner.stop()
   console.log(output.text)
 

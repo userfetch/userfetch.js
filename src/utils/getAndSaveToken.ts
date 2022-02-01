@@ -5,12 +5,18 @@ import inquirer from 'inquirer'
 
 import { CONFIG_DIR } from './constants.js'
 
+interface IAuthTokens {
+  github_token?: string
+}
+
 const envFile = path.join(CONFIG_DIR, '.env')
 
-async function saveToEnv({ github_token }) {
-  if (!github_token) return
-  const data = `github_token=${github_token}\n`
-  await fs.promises.writeFile(envFile, data)
+async function saveToEnv(tokens: IAuthTokens) {
+  let data: string[] = []
+  if (tokens.github_token)
+    data.push(`github_token=${tokens.github_token}`)
+  // TODO: keep current values of other tokens
+  await fs.promises.writeFile(envFile, data.join('\n'))
 }
 
 async function getAndSaveToken() {

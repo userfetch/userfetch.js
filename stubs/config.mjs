@@ -16,27 +16,26 @@ export function templateDefault(t, data) {
     .right()
     .title(data.username)
     .underline()
-  if (data.bio) t.text(data.bio)
+  if (data.bio)
+    t.text(data.bio)
   t.blank()
     .info('repos', data.repositories)
     .info('followers', data.followers)
 }
 
-export const symbols = {
-  underline: '-',
-  infoSeparator: ':',
-  listMarker: '-',
-  columnSeparator: '   ',
-}
-
-export const colors = {
-  primary: 'blueBright',
-  secondary: 'white',
-  tertiary: 'gray',
-  alternate: 'whiteBright',
-}
-
-export const meta = {
+export const textOptions = {
+  theme: {
+    primary: 'blueBright',
+    secondary: 'white',
+    tertiary: 'gray',
+    alternate: 'whiteBright',
+  },
+  symbols: {
+    underline: '-',
+    infoSeparator: ':',
+    listMarker: '-',
+    columnSeparator: '   ',
+  },
   paddingLeft: 0,
   paddingTop: 0,
   paddingBottom: 1,

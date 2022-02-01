@@ -186,7 +186,7 @@ const headers = {
   authorization: '',
 }
 
-function authenticate (token: string) {
+function authenticate (token?: string) {
   if (!token) throw new Error('Missing authentication token')
   headers.authorization = `token ${token}`
 }

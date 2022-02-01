@@ -3,7 +3,7 @@ import path from 'path'
 
 import { __DIR, LINESTART_RE_GM, ZERO_WIDTH_SPACE } from './constants.js'
 
-function getASCII(configPath, filePath) {
+function getASCII(configPath: string, filePath: string) {
   filePath = path.resolve(__DIR(configPath), filePath)
   // TODO: error handling
   const ascii = fs.readFileSync(filePath)

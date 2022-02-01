@@ -4,7 +4,11 @@ import path from 'path'
 import Anser from 'anser'
 
 import { CWD } from '../utils/constants.js'
-import { svgOptions } from '../../stubs/config.mjs'
+import { svgOptions as DefaultSvgOptions } from '../../stubs/config.mjs'
+
+import type { ISVGOptions, ISVGOptionsPartial } from '../config.js'
+
+const svgOptions = DefaultSvgOptions as ISVGOptions
 
 function getStyles() {
   const { colors, ...rest } = svgOptions
@@ -122,7 +126,8 @@ function getSVGPath(svgpath: string) {
 }
 
 export const renderer = {
-  options: function (options) {
+  options: function (options?: ISVGOptionsPartial) {
+    // FIXME: deep assign
     Object.assign(svgOptions, options)
     return this
   },

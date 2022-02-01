@@ -2,7 +2,14 @@ import * as githubAPI from './apis/github.js'
 import { renderer as TextRenderer } from './renderer/terminal.js'
 import { renderer as SVGRenderer } from './renderer/svg.js'
 
-export async function main(args, env, config) {
+import type { IConfigPartial } from './config.js'
+
+export async function main(
+  // FIXME: args and env types
+  args: Record<string, any>,
+  env: NodeJS.ProcessEnv,
+  config: IConfigPartial
+) {
   const template = args.user ? config.templateDefault : config.template
 
   githubAPI.authenticate(env.github_token)
@@ -13,15 +20,13 @@ export async function main(args, env, config) {
     svg: '',
   }
 
-  output.text = TextRenderer.options({
-    colors: config.colors,
-    symbols: config.symbols,
-    meta: config.meta,
-  }).render(template, githubStats)
+  output.text = TextRenderer.options(config.textOptions).render(
+    template,
+    githubStats
+  )
 
-  if (args.svg) {
+  if (args.svg)
     output.svg = SVGRenderer.options(config.svgOptions).render(output.text)
-  }
 
   return {
     output,

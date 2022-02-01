@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import chalk, { ForegroundColor } from 'chalk'
 import wrapAnsi from 'wrap-ansi'
 import stripAnsi from 'strip-ansi'
 import { table, getBorderCharacters } from 'table'
@@ -6,12 +6,18 @@ import { table, getBorderCharacters } from 'table'
 import { getASCII } from '../utils/getASCII.js'
 import { chalkTemplate } from '../utils/chalkTemplate.js'
 import { LINESTART_RE_GM, ZERO_WIDTH_SPACE } from '../utils/constants.js'
-import { colors as Colors, symbols as Symbols, meta as Meta } from '../../stubs/config.mjs'
+import { textOptions as DefautlTextOptions } from '../../stubs/config.mjs'
 
-const color = (colorStr) => chalk[colorStr || 'reset'] || chalk.reset
+import type { ITextOptions, ITextOptionsPartial } from '../config.js'
 
-let column = 'left'
-let result = {
+const textOptions = DefautlTextOptions as ITextOptions
+
+const color = (colorStr: typeof ForegroundColor | 'reset') => chalk[colorStr]
+
+type columnType = 'left' | 'right' | 'top' | 'bottom'
+
+let column: columnType = 'left'
+let result: Record<columnType, string> = {
   left: '',
   right: '',
   top: '',
@@ -39,50 +45,57 @@ export const renderer = {
     return this
   },
 
-  ascii: function (configPath, filePath) {
+  ascii: function (configPath: string, filePath: string) {
     const ascii = getASCII(configPath, filePath)
-    result[column] += color(Colors.alternate)(ascii.toString()) + '\n'
+    result[column] +=
+      color(textOptions.theme.alternate)(ascii.toString()) + '\n'
     return this
   },
 
-  title: function (value) {
-    result[column] += color(Colors.primary).bold(value) + '\n'
+  title: function (value: string) {
+    result[column] += color(textOptions.theme.primary).bold(value) + '\n'
     return this
   },
 
   underline: function () {
     const last = stripAnsi(result[column]).trim().split('\n').slice(-1)[0]
-    const uline = Symbols.underline.repeat(last.length)
-    result[column] += color(Colors.tertiary)(uline) + '\n'
+    const uline = textOptions.symbols.underline.repeat(last.length)
+    result[column] += color(textOptions.theme.tertiary)(uline) + '\n'
     return this
   },
 
-  info: function (key, value) {
+  info: function (key: string, value: string) {
     result[column] +=
-      color(Colors.primary).bold(key) +
-      color(Colors.tertiary)(Symbols.infoSeparator + ' ') +
-      color(Colors.secondary)(value) +
+      color(textOptions.theme.primary).bold(key) +
+      color(textOptions.theme.tertiary)(
+        textOptions.symbols.infoSeparator + ' '
+      ) +
+      color(textOptions.theme.secondary)(value) +
       '\n'
     return this
   },
 
-  list: function (key, values) {
+  list: function (key: string, values: string[]) {
     result[column] +=
-      color(Colors.primary).bold(key) +
-      color(Colors.tertiary)(Symbols.infoSeparator + ' ') +
+      color(textOptions.theme.primary).bold(key) +
+      color(textOptions.theme.tertiary)(
+        textOptions.symbols.infoSeparator + ' '
+      ) +
       '\n'
     values.forEach((value) => {
       result[column] +=
         ZERO_WIDTH_SPACE +
-        color(Colors.tertiary)('  ' + Symbols.listMarker + ' ') +
-        color(Colors.secondary)(value) +
+        color(textOptions.theme.tertiary)(
+          '  ' + textOptions.symbols.listMarker + ' '
+        ) +
+        color(textOptions.theme.secondary)(value) +
         '\n'
     })
     return this
   },
 
-  text: function (str) {
-    result[column] += color(Colors.secondary)(str) + '\n'
+  text: function (str: string) {
+    result[column] += color(textOptions.theme.secondary)(str) + '\n'
     return this
   },
 
@@ -91,15 +104,18 @@ export const renderer = {
     return this
   },
 
-  raw: function (str) {
+  raw: function (str: string) {
     result[column] += chalkTemplate(str) + '\n'
     return this
   },
 
-  options: function ({ colors = {}, symbols = {}, meta = {} }) {
-    Object.assign(Colors, colors)
-    Object.assign(Symbols, symbols)
-    Object.assign(Meta, meta)
+  options: function (options?: ITextOptionsPartial) {
+    const themeOpt = Object.assign({}, textOptions.theme, options?.theme)
+    const symOpt = Object.assign({}, textOptions.symbols, options?.symbols)
+    Object.assign(textOptions, options, {
+      theme: themeOpt,
+      symbols: symOpt,
+    } as ITextOptionsPartial)
     return this
   },
 
@@ -115,11 +131,11 @@ export const renderer = {
   output: function () {
     let tableConfig = {
       border: Object.assign(getBorderCharacters('void'), {
-        bodyJoin: Symbols.columnSeparator,
+        bodyJoin: textOptions.symbols.columnSeparator,
       }),
       columns: [
         {
-          paddingLeft: Meta.paddingLeft,
+          paddingLeft: textOptions.paddingLeft,
           paddingRight: 0,
         },
         {
@@ -129,32 +145,35 @@ export const renderer = {
       ],
     }
     let header = table(
-      [[wrapAnsi(result.top, 2 * Meta.maxWidth)]],
+      [[wrapAnsi(result.top, 2 * textOptions.maxWidth)]],
       tableConfig
     )
     let middle = table(
       [
         [
-          wrapAnsi(result.left, Meta.maxWidth),
-          wrapAnsi(result.right, Meta.maxWidth),
+          wrapAnsi(result.left, textOptions.maxWidth),
+          wrapAnsi(result.right, textOptions.maxWidth),
         ],
       ],
       tableConfig
     )
     let footer = table(
-      [[wrapAnsi(result.bottom, 2 * Meta.maxWidth)]],
+      [[wrapAnsi(result.bottom, 2 * textOptions.maxWidth)]],
       tableConfig
     )
     return [
-      '\n'.repeat(Meta.paddingTop),
-      result.top && (header.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE) + '\n'),
+      '\n'.repeat(textOptions.paddingTop),
+      result.top &&
+        header.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE) + '\n',
       middle.trimEnd(),
-      result.bottom && ('\n' + footer.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE)),
-      '\n'.repeat(Meta.paddingBottom),
+      result.bottom &&
+        '\n' + footer.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE),
+      '\n'.repeat(textOptions.paddingBottom),
     ].join('')
   },
 
-  render: function (template, data) {
+  // TODO: remove any
+  render: function (template: Function, data: any) {
     this.clear()
     template(this, data)
     return this.output()

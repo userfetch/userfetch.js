@@ -6,7 +6,7 @@ import url from 'url';
 const req = module.createRequire(import.meta.url)
 const pack = req('../../package.json')
 
-export const __DIR = (fileurl) => path.dirname(url.fileURLToPath(fileurl))
+export const __DIR = (fileurl: string | url.URL) => path.dirname(url.fileURLToPath(fileurl))
 
 export const NAME = pack.name
 export const CWD = process.cwd()
