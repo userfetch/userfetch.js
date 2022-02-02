@@ -14,10 +14,11 @@ const textOptions = DefautlTextOptions as ITextOptions
 
 const color = (colorStr: typeof ForegroundColor | 'reset') => chalk[colorStr]
 
-type columnType = 'left' | 'right' | 'top' | 'bottom'
+type columnType = 'left' | 'right' | 'top' | 'bottom' | 'prompt'
 
 let column: columnType = 'left'
 let result: Record<columnType, string> = {
+  prompt: '',
   left: '',
   right: '',
   top: '',
@@ -109,6 +110,11 @@ export const renderer = {
     return this
   },
 
+  prompt: function ({user, dir, cmd}: {user?: string, dir?: string, cmd: string}) {
+    result.prompt = chalkTemplate(`{white ${user?`{red ${user}}:`:``}{blue ${dir??'~'}}$ ${cmd}}`)
+    return this
+  },
+
   options: function (options?: ITextOptionsPartial) {
     const themeOpt = Object.assign({}, textOptions.theme, options?.theme)
     const symOpt = Object.assign({}, textOptions.symbols, options?.symbols)
@@ -162,6 +168,7 @@ export const renderer = {
       tableConfig
     )
     return [
+      result.prompt?result.prompt+'\n':'',
       '\n'.repeat(textOptions.paddingTop),
       result.top &&
         header.trimEnd().replace(LINESTART_RE_GM, ZERO_WIDTH_SPACE) + '\n',
