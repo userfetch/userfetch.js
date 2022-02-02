@@ -29,11 +29,17 @@ import type { IConfigPartial } from '../config.js'
     dotenv.config({ path: path.join(CONFIG_DIR, '.env') })
   }
 
-  let config = {}
-  if (args.config) config = await import(path.resolve(CWD, args.config))
-  else if (!args.ci) config = await import(path.join(CONFIG_DIR, 'config.mjs'))
+  let configPath = ''
+  if (args.config) {
+    configPath = path.resolve(CWD, args.config)
+    if (!args.config.endsWith('.mjs'))
+      configPath = path.join(configPath, 'config.mjs')
+  } else if (!args.ci) {
+    configPath = path.join(CONFIG_DIR, 'config.mjs')
+  }
+  const config: IConfigPartial = await import(configPath)
 
-  let { output, debugInfo } = await main(args, process.env, config as IConfigPartial)
+  let { output, debugInfo } = await main(args, process.env, config)
   spinner.stop()
   console.log(output.text)
 
