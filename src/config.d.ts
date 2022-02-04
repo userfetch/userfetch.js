@@ -2,10 +2,10 @@ import { ForegroundColor } from 'chalk'
 import type { PartialDeep } from 'type-fest'
 
 export interface ITheme {
-  primary: typeof ForegroundColor
-  secondary: typeof ForegroundColor
-  tertiary: typeof ForegroundColor
-  alternate: typeof ForegroundColor
+  title: typeof ForegroundColor
+  key: typeof ForegroundColor
+  text: typeof ForegroundColor
+  symbol: typeof ForegroundColor
 }
 
 export interface ISymbols {

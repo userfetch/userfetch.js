@@ -25,10 +25,10 @@ export function templateDefault(t, data) {
 
 export const textOptions = {
   theme: {
-    primary: 'blueBright',
-    secondary: 'white',
-    tertiary: 'gray',
-    alternate: 'whiteBright',
+    title: 'blueBright',
+    key: 'blueBright',
+    text: 'white',
+    symbol: 'gray',
   },
   symbols: {
     underline: '-',
@@ -38,7 +38,7 @@ export const textOptions = {
   },
   paddingLeft: 0,
   paddingTop: 0,
-  paddingBottom: 1,
+  paddingBottom: 0,
   maxWidth: 40,
 }
 

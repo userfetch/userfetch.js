@@ -49,54 +49,54 @@ export const renderer = {
   ascii: function (configPath: string, filePath: string) {
     const ascii = getASCII(configPath, filePath)
     result[column] +=
-      color(textOptions.theme.alternate)(ascii.toString()) + '\n'
+      color(textOptions.theme.text)(ascii.toString()) + '\n'
     return this
   },
 
   title: function (value: string) {
-    result[column] += color(textOptions.theme.primary).bold(value) + '\n'
+    result[column] += color(textOptions.theme.title).bold(value) + '\n'
     return this
   },
 
   underline: function () {
     const last = stripAnsi(result[column]).trim().split('\n').slice(-1)[0]
     const uline = textOptions.symbols.underline.repeat(last.length)
-    result[column] += color(textOptions.theme.tertiary)(uline) + '\n'
+    result[column] += color(textOptions.theme.symbol)(uline) + '\n'
     return this
   },
 
   info: function (key: string, value: string) {
     result[column] +=
-      color(textOptions.theme.primary).bold(key) +
-      color(textOptions.theme.tertiary)(
+      color(textOptions.theme.key).bold(key) +
+      color(textOptions.theme.symbol)(
         textOptions.symbols.infoSeparator + ' '
       ) +
-      color(textOptions.theme.secondary)(value) +
+      color(textOptions.theme.text)(value) +
       '\n'
     return this
   },
 
   list: function (key: string, values: string[]) {
     result[column] +=
-      color(textOptions.theme.primary).bold(key) +
-      color(textOptions.theme.tertiary)(
+      color(textOptions.theme.key).bold(key) +
+      color(textOptions.theme.symbol)(
         textOptions.symbols.infoSeparator + ' '
       ) +
       '\n'
     values.forEach((value) => {
       result[column] +=
         ZERO_WIDTH_SPACE +
-        color(textOptions.theme.tertiary)(
+        color(textOptions.theme.symbol)(
           '  ' + textOptions.symbols.listMarker + ' '
         ) +
-        color(textOptions.theme.secondary)(value) +
+        color(textOptions.theme.text)(value) +
         '\n'
     })
     return this
   },
 
   text: function (str: string) {
-    result[column] += color(textOptions.theme.secondary)(str) + '\n'
+    result[column] += color(textOptions.theme.text)(str) + '\n'
     return this
   },
 
@@ -116,6 +116,7 @@ export const renderer = {
   },
 
   options: function (options?: ITextOptionsPartial) {
+    // FIXME: deep merge
     const themeOpt = Object.assign({}, textOptions.theme, options?.theme)
     const symOpt = Object.assign({}, textOptions.symbols, options?.symbols)
     Object.assign(textOptions, options, {
