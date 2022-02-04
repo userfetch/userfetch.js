@@ -48,5 +48,5 @@ import type { IConfigPartial } from '../config.js'
   spinner.stop()
 
   if (args.debug)
-    console.log({ VERSION, args, config, ...debugInfo, CONFIG_DIR, PROJ_ROOT })
+    console.log({ VERSION, CONFIG_DIR, PROJ_ROOT, CWD, configPath, config, args, ...debugInfo})
 })()

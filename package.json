@@ -10,7 +10,7 @@
     "stubs/**/*"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && chmod u+x dist/bin/*.js",
     "test": "node dist/bin/cli.js -c stubs/config.mjs -s temp/out.svg"
   },
   "repository": {
