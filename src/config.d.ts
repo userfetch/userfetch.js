@@ -1,6 +1,8 @@
 import { ForegroundColor } from 'chalk'
 import type { PartialDeep } from 'type-fest'
 
+type CSSColor = string
+
 export interface ITheme {
   title: typeof ForegroundColor
   key: typeof ForegroundColor
@@ -16,24 +18,24 @@ export interface ISymbols {
 }
 
 export interface IColors {
-  backgroundColor: string
-  foregroundColor: string
-  black: string
-  red: string
-  green: string
-  yellow: string
-  blue: string
-  magenta: string
-  cyan: string
-  white: string
-  blackBright: string
-  redBright: string
-  greenBright: string
-  yellowBright: string
-  blueBright: string
-  magentaBright: string
-  cyanBright: string
-  whiteBright: string
+  backgroundColor: CSSColor
+  foregroundColor: CSSColor
+  black: CSSColor
+  red: CSSColor
+  green: CSSColor
+  yellow: CSSColor
+  blue: CSSColor
+  magenta: CSSColor
+  cyan: CSSColor
+  white: CSSColor
+  blackBright: CSSColor
+  redBright: CSSColor
+  greenBright: CSSColor
+  yellowBright: CSSColor
+  blueBright: CSSColor
+  magentaBright: CSSColor
+  cyanBright: CSSColor
+  whiteBright: CSSColor
 }
 
 export interface ITextOptions {
