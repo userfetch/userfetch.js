@@ -1,0 +1,21 @@
+
+{
+  "name": "Node.js & TypeScript",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "16-bullseye"
+    }
+  },
+  "settings": {},
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "GraphQL.vscode-graphql"
+  ],
+  // "forwardPorts": [],
+  // "postCreateCommand": "yarn install",
+  "remoteUser": "node"
+}
