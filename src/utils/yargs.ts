@@ -30,9 +30,8 @@ const parser = yargs([])
     type: 'boolean',
     default: false,
   })
-  .option('no-color', {
-    alias: 'nocolor',
-    describe: 'Disable colored output',
+  .option('color', {
+    describe: 'Enable/Disable(--no-color) colored output',
     type: 'boolean',
     default: false,
   })
