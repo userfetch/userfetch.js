@@ -71,4 +71,5 @@ export const svgOptions = {
   radius: 6,
   fontSize: 13.6,
   lineHeight: 19.72,
+  animationDuration: 1000
 }

@@ -205,7 +205,8 @@ async function getUser (username) {
   }
 
   try {
-    const { user } = await graphql(query, { ...variables, headers })
+    // FIXME: use zod?
+    const { user } = await graphql(query, { ...variables, headers }) as any
     return user
   }
   

@@ -48,5 +48,6 @@ declare module '*config.mjs' {
     radius: number
     fontSize: number
     lineHeight: number
+    animationDuration: number
   }
 }
