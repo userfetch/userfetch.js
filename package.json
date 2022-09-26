@@ -1,6 +1,6 @@
 {
   "name": "userfetch",
-  "version": "1.7.3",
+  "version": "1.8.0",
   "description": "super customizable, neofetch inspired tool to display github user stats",
   "main": "index.js",
   "type": "module",
@@ -35,18 +35,20 @@
     "chalk": "^4.1.2",
     "dotenv": "^10.0.0",
     "inquirer": "^8.1.5",
+    "jsdom": "^20.0.0",
     "ora": "^6.0.1",
     "strip-ansi": "^7.0.1",
     "table": "^6.7.2",
-    "typescript": "^4.4.4",
     "wrap-ansi": "^8.0.1",
     "yargs": "^17.2.1"
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.0",
     "@types/node": "^16.11.7",
+    "@types/jsdom": "^20.0.0",
     "@types/wrap-ansi": "^8.0.1",
     "@types/yargs": "^17.0.5",
-    "type-fest": "^2.11.1"
+    "type-fest": "^2.11.1",
+    "typescript": "^4.8.3"
   }
 }

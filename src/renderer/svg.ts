@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 
 import Anser from 'anser'
+import { JSDOM } from 'jsdom'
 
 import { CWD } from '../utils/constants.js'
 import { svgOptions as DefaultSvgOptions } from '../../stubs/config.mjs'
@@ -94,10 +95,25 @@ function getStyles() {
     white-space: pre;
     -webkit-locale: 'en';
   }
+  #terminal > * {
+    animation-name: animateIn;
+    animation-duration: 0ms;
+    animation-delay: calc(var(--animation-delay) * ${rest.animationDuration}ms);
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+  }
+  @keyframes animateIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   `
 }
 
-function getViewBox() {
+function getDimensions() {
   const width =
     svgOptions.cols * svgOptions.fontSize * 0.5 + 2 * svgOptions.paddingX
   const height =
@@ -105,16 +121,34 @@ function getViewBox() {
     2 * svgOptions.paddingY -
     svgOptions.lineHeight +
     svgOptions.fontSize
-  return `0 0 ${width} ${height}`
+  return { width, height }
 }
 
 function getSVGString(svgdata: string) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${getViewBox()}">
+  const dims = getDimensions()
+  const rawSVG = (
+`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${dims.width} ${dims.height}" width="${dims.width}" height="${dims.height}">
   <foreignObject x="0" y="0" id="window">
     <style>${getStyles()}</style>
     <pre xmlns="http://www.w3.org/1999/xhtml" id="terminal">${svgdata}</pre>
   </foreignObject>
 </svg>`
+  )
+  const dom = new JSDOM(rawSVG)
+  const lines = dom.window.document.getElementById('terminal')?.children
+  if (lines !== undefined) {
+    const animationDelayDelta = 1 / (lines.length - 1)
+    let animationDelay = 0
+    for (const [i, node] of Object.entries(lines)) {
+      // FIXME: 
+      // @ts-ignore
+      // Property 'style' does not exist on type 'Element'
+      // the code works, style does exist
+      node.style.setProperty('--animation-delay', animationDelay)
+      animationDelay += animationDelayDelta
+    }
+  }
+  return dom.window.document.body.innerHTML
 }
 
 function getSVGPath(svgpath: string) {

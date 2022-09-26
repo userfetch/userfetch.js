@@ -56,6 +56,7 @@ export interface ISVGOptions {
   radius: number
   fontSize: number
   lineHeight: number
+  animationDuration: number
 }
 
 export type ITextOptionsPartial = PartialDeep<ITextOptions>
